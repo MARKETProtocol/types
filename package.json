@@ -45,7 +45,8 @@
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged && npm run build && npm run test:prod",
-    "typechain": "typechain './node_modules/market-solidity/build/contracts/*.json' --outDir types"
+    "typechain":
+      "typechain \"./node_modules/market-solidity/build/contracts/+($npm_package_config_typechain_include).json\" --outDir types --force"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
@@ -61,6 +62,9 @@
     "validate-commit-msg": {
       "types": "conventional-commit-types",
       "helpMessage": "Use \"npm run commit\" instead, we use conventional-changelog format :) (https://github.com/commitizen/cz-cli)"
+    },
+    "typechain": {
+      "include": "Market*|CollateralToken|OraclizeQueryTest|ERC20|OrderLib"
     }
   },
   "jest": {
@@ -77,7 +81,7 @@
       "/node_modules/",
       "/test/"
     ],
-    "coverageThresholdCOMMENTEDOUT": {
+    "coverageThreshold": {
       "global": {
         "branches": 90,
         "functions": 95,
