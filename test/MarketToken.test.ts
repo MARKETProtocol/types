@@ -1,27 +1,22 @@
 import { MarketToken } from '../types/MarketToken';
-import { TestContract } from './constants';
+import { TestContract } from './TestContract';
 
 import BigNumber from 'bignumber.js';
+
+import { MARKET_CONTRACT_ADDRESS, USER_ADDRESS } from './constants';
 
 describe('MarketToken class', () => {
   let contractTester: TestContract<MarketToken>;
   let contract: MarketToken;
 
   beforeEach(async () => {
-    contractTester = new TestContract<MarketToken>(
-      'MarketToken',
-      '0x880663022da3f7937a0e3cbc7ab05eb23884e051'
-    );
+    contractTester = new TestContract<MarketToken>('MarketToken', MARKET_CONTRACT_ADDRESS);
 
     contract = await contractTester.createContract(MarketToken.createAndValidate);
   });
 
   it('throws on invalid contract code', async () => {
-    const testC = new TestContract<MarketToken>(
-      'MarketToken',
-      '0x880663022da3f7937a0e3cbc7ab05eb23884e051',
-      '0x0'
-    );
+    const testC = new TestContract<MarketToken>('MarketToken', MARKET_CONTRACT_ADDRESS, '0x0');
 
     try {
       await testC.createContract(MarketToken.createAndValidate);
@@ -106,58 +101,53 @@ describe('MarketToken class', () => {
 
   describe('methods', () => {
     it('has isUserEnabledForContract', async () => {
-      const marketContractAddress = '0xb49f84052f27b938e22e9172235c451a046822ca';
-      const userAddress = '0xfe89ff6c794c0e3dad5aa438fe93bcb666e49917';
       const expected = true;
 
       contractTester.setupMethodSpy(
         'isUserEnabledForContract',
         expected,
-        marketContractAddress,
-        userAddress
+        MARKET_CONTRACT_ADDRESS,
+        USER_ADDRESS
       );
 
       await contractTester.assertMethod(
-        contract.isUserEnabledForContract(marketContractAddress, userAddress),
+        contract.isUserEnabledForContract(MARKET_CONTRACT_ADDRESS, USER_ADDRESS),
         expected
       );
     });
 
     it('has isBalanceSufficientForContractCreation', async () => {
-      const userAddress = '0xfe89ff6c794c0e3dad5aa438fe93bcb666e49917';
       const expected = true;
 
       contractTester.setupMethodSpy(
         'isBalanceSufficientForContractCreation',
         expected,
-        userAddress
+        USER_ADDRESS
       );
 
       await contractTester.assertMethod(
-        contract.isBalanceSufficientForContractCreation(userAddress),
+        contract.isBalanceSufficientForContractCreation(USER_ADDRESS),
         expected
       );
     });
 
     it('has lockTokensForTradingMarketContract', async () => {
-      const marketContractAddress = '0xb49f84052f27b938e22e9172235c451a046822ca';
       const qtyToLock = 10;
 
       contractTester.setupTxMethodSpy(
         'lockTokensForTradingMarketContractTx',
         {},
-        marketContractAddress,
+        MARKET_CONTRACT_ADDRESS,
         qtyToLock
       );
 
       await contractTester.assertTxMethod(
-        contract.lockTokensForTradingMarketContractTx(marketContractAddress, qtyToLock),
+        contract.lockTokensForTradingMarketContractTx(MARKET_CONTRACT_ADDRESS, qtyToLock),
         {}
       );
     });
 
     it('has unlockTokens', async () => {
-      const marketContractAddress = '0xb49f84052f27b938e22e9172235c451a046822ca';
       const qtyToUnlock = 15;
 
       contractTester.setupTxMethodSpy(
@@ -165,12 +155,12 @@ describe('MarketToken class', () => {
         {
           from: '0x73483'
         },
-        marketContractAddress,
+        MARKET_CONTRACT_ADDRESS,
         qtyToUnlock
       );
 
       await contractTester.assertTxMethod(
-        contract.unlockTokensTx(marketContractAddress, qtyToUnlock),
+        contract.unlockTokensTx(MARKET_CONTRACT_ADDRESS, qtyToUnlock),
         {
           from: '0x73483'
         }
@@ -178,19 +168,17 @@ describe('MarketToken class', () => {
     });
 
     it('has getLockedBalanceForUser', async () => {
-      const marketContractAddress = '0xb49f84052f27b938e22e9172235c451a046822ca';
-      const userAddress = '0xfe89ff6c794c0e3dad5aa438fe93bcb666e49917';
       const expected = new BigNumber(12);
 
       contractTester.setupMethodSpy(
         'getLockedBalanceForUser',
         expected,
-        marketContractAddress,
-        userAddress
+        MARKET_CONTRACT_ADDRESS,
+        USER_ADDRESS
       );
 
       await contractTester.assertMethod(
-        contract.getLockedBalanceForUser(marketContractAddress, userAddress),
+        contract.getLockedBalanceForUser(MARKET_CONTRACT_ADDRESS, USER_ADDRESS),
         expected
       );
     });
@@ -223,11 +211,12 @@ describe('MarketToken class', () => {
     });
 
     it('has unlockTokens', async () => {
-      const address = '0xb49f84052f27b938e22e9172235c451a046822ca';
+      contractTester.setupTxMethodSpy('setUpgradeableTargetTx', {}, MARKET_CONTRACT_ADDRESS);
 
-      contractTester.setupTxMethodSpy('setUpgradeableTargetTx', {}, address);
-
-      await contractTester.assertTxMethod(contract.setUpgradeableTargetTx(address), {});
+      await contractTester.assertTxMethod(
+        contract.setUpgradeableTargetTx(MARKET_CONTRACT_ADDRESS),
+        {}
+      );
     });
 
     it('has transfer', async () => {
