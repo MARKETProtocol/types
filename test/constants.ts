@@ -15,14 +15,13 @@ import { AbiDefinition } from '@0xproject/types';
  */
 export class TestContract<T extends TypeChainContract> {
   private mockWeb3: Web3;
-  private mockProvider: FakeProvider;
+  private mockCustomWeb3: Web3;
 
-  private contract: T;
   private mockWeb3Contract: ContractInstance;
+  private mockCustomWeb3Contract: ContractInstance;
 
   constructor(contractName: string, private address: string, contractCode?: string) {
-    this.mockProvider = new FakeProvider();
-    this.mockWeb3 = new Web3(this.mockProvider);
+    this.mockWeb3 = new Web3(new FakeProvider());
 
     this.mockWeb3Contract = {
       address: address,
@@ -36,16 +35,7 @@ export class TestContract<T extends TypeChainContract> {
       }
     );
 
-    spyOn(this.mockWeb3.eth, 'contract')
-      .and.callFake((abi: AbiDefinition[]) => {
-        expect(abi).toEqual(this.mockWeb3Contract.abi);
-      })
-      .and.returnValue({
-        at: addr => {
-          expect(addr).toEqual(address);
-          return this.mockWeb3Contract;
-        }
-      });
+    this.setupMockContract(this.mockWeb3, this.mockWeb3Contract);
   }
 
   /**
@@ -56,19 +46,31 @@ export class TestContract<T extends TypeChainContract> {
   public async createContract(
     createMethod: (web3: any, address: string | BigNumber) => Promise<T>
   ) {
-    this.contract = await createMethod(this.mockWeb3, this.address);
-    return this.contract;
+    return createMethod(this.mockWeb3, this.address);
   }
 
   /**
    * Mocks out a web3 method
    *
    * @param methodName The method to mock out
-   * @param expected The expected return value
+   * @param expectedOrError The expected error or return value
    * @param expectedArgs The expected arguments
    */
-  public setupWeb3Mock(methodName: keyof T, expected: any, ...expectedArgs: any[]) {
-    this.mockWeb3Contract[methodName] = this.createMethodSpy(expectedArgs, expected);
+  public setupMethodSpy(methodName: keyof T, expectedOrError: Error | any, ...expectedArgs: any[]) {
+    const expected = expectedOrError instanceof Error ? null : expectedOrError;
+    const expectedError = expectedOrError instanceof Error ? expectedOrError : null;
+
+    this.mockWeb3Contract[methodName] = this.createMethodSpy(expectedArgs, expected, expectedError);
+  }
+
+  /**
+   * Mocks out a web3 getter method
+   *
+   * @param methodName The method to mock out
+   * @param expected The expected return value
+   */
+  public setupGetterSpy(methodName: keyof T, expected: any) {
+    this.mockWeb3Contract[methodName] = this.createMethodSpy([], expected);
   }
 
   /**
@@ -78,7 +80,7 @@ export class TestContract<T extends TypeChainContract> {
    * @param txArgs The expected transaction args
    * @param expectedArgs The expected arguments
    */
-  public setupWeb3TxMock(methodName: keyof T, txArgs?: ITxParams, ...expectedArgs: any[]) {
+  public setupTxMethodSpy(methodName: keyof T, txArgs?: ITxParams, ...expectedArgs: any[]) {
     const web3MethodName = methodName.slice(0, methodName.length - 2);
     const expectedData = '0x128782984';
 
@@ -92,45 +94,41 @@ export class TestContract<T extends TypeChainContract> {
         for (let i = 0; i < expectedArgs.length; i++) {
           expect(args[i]).toEqual(expectedArgs[i].toString());
         }
+
         return expectedData;
       })
     };
   }
 
   /**
-   * Tests the specified method and ensures the method is called with the correct args and returns the correct value
+   * Tests the specified method and ensures the method returns the correct value
    *
    * @param methodName The method name
-   * @param expectedArgs The expected arguments
-   * @param expected The expected return value
+   * @param expectedOrError The expected error or return value
    */
-  public async assertMethod<N>(method: Promise<N>, expected?: N) {
-    const result = await method;
+  public async assertMethod<N>(method: Promise<N>, expectedOrError?: Error | N) {
+    try {
+      const result = await method;
 
-    expect(result).toBe(expected);
+      if (expectedOrError instanceof Error) {
+        fail();
+      } else {
+        expect(result).toBe(expectedOrError);
+      }
+    } catch (e) {
+      if (expectedOrError instanceof Error) {
+        expect(e).toBe(expectedOrError);
+      } else {
+        fail();
+      }
+    }
   }
 
   /**
-   * Tests a getter method and ensures the method returns the correct value
+   * Tests the specified transactional method and ensures the method returns the correct value
    *
-   * @param methodName The method name
-   * @param expected The expected return value
-   */
-  public async testGetterMethod(methodName: string, expected: any) {
-    this.mockWeb3Contract[methodName] = this.createMethodSpy([], expected);
-
-    expect(this.contract[methodName]).not.toBeUndefined();
-    const result = await this.contract[methodName];
-
-    expect(result).toBe(expected);
-    expect(this.mockWeb3Contract[methodName]).toHaveBeenCalled();
-  }
-
-  /**
-   * Tests the specified transactional method and ensures the method is called with the correct args
-   *
-   * @param methodName The method name
-   * @param expectedArgs The expected arguments
+   * @param method A reference to the method to test
+   * @param txArgs The transaction params
    * @param expected The expected return value
    */
   public async assertTxMethod(
@@ -147,6 +145,25 @@ export class TestContract<T extends TypeChainContract> {
     const expectedData = '0x128782984';
     const dataResult = await method.getData();
     expect(dataResult).toBe(expectedData);
+  }
+
+  /**
+   * Sets up the web3 instance to return the specified contract instance when web3.eth.contract().at() is called
+   *
+   * @param web3 The web3 instance to spy on
+   * @param web3Contract The web3 contract to return
+   */
+  private setupMockContract(web3: Web3, web3Contract: ContractInstance) {
+    spyOn(web3.eth, 'contract')
+      .and.callFake((abi: AbiDefinition[]) => {
+        expect(abi).toEqual(web3Contract.abi);
+      })
+      .and.returnValue({
+        at: addr => {
+          expect(addr).toEqual(this.address);
+          return web3Contract;
+        }
+      });
   }
 
   private createMethodSpy(expectedArgs: any[], expected?: any, error?: any) {

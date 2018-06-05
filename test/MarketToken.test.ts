@@ -36,61 +36,71 @@ describe('MarketToken class', () => {
     it('has name', async () => {
       const expected = 'myName';
 
-      await contractTester.testGetterMethod('name', expected);
+      contractTester.setupGetterSpy('name', expected);
+      await contractTester.assertMethod(contract.name, expected);
     });
 
     it('has symbol', async () => {
       const expected = 'symbol';
 
-      await contractTester.testGetterMethod('symbol', expected);
+      contractTester.setupGetterSpy('symbol', expected);
+      await contractTester.assertMethod(contract.symbol, expected);
     });
 
     it('has decimals', async () => {
-      const expected = 18;
+      const expected = new BigNumber(18);
 
-      await contractTester.testGetterMethod('decimals', expected);
+      contractTester.setupGetterSpy('decimals', expected);
+      await contractTester.assertMethod(contract.decimals, expected);
     });
 
     it('has INITIAL_SUPPLY', async () => {
-      const expected = 1000000;
+      const expected = new BigNumber(1000000);
 
-      await contractTester.testGetterMethod('INITIAL_SUPPLY', expected);
+      contractTester.setupGetterSpy('INITIAL_SUPPLY', expected);
+      await contractTester.assertMethod(contract.INITIAL_SUPPLY, expected);
     });
 
     it('has lockQtyToAllowTrading', async () => {
-      const expected = 200;
+      const expected = new BigNumber(200);
 
-      await contractTester.testGetterMethod('lockQtyToAllowTrading', expected);
+      contractTester.setupGetterSpy('lockQtyToAllowTrading', expected);
+      await contractTester.assertMethod(contract.lockQtyToAllowTrading, expected);
     });
 
     it('has minBalanceToAllowContractCreation', async () => {
-      const expected = 430;
+      const expected = new BigNumber(430);
 
-      await contractTester.testGetterMethod('minBalanceToAllowContractCreation', expected);
+      contractTester.setupGetterSpy('minBalanceToAllowContractCreation', expected);
+      await contractTester.assertMethod(contract.minBalanceToAllowContractCreation, expected);
     });
 
     it('has upgradeableTarget', async () => {
       const expected = '0x21274617';
 
-      await contractTester.testGetterMethod('upgradeableTarget', expected);
+      contractTester.setupGetterSpy('upgradeableTarget', expected);
+      await contractTester.assertMethod(contract.upgradeableTarget, expected);
     });
 
     it('has totalUpgraded', async () => {
-      const expected = 203;
+      const expected = new BigNumber(203);
 
-      await contractTester.testGetterMethod('totalUpgraded', expected);
+      contractTester.setupGetterSpy('totalUpgraded', expected);
+      await contractTester.assertMethod(contract.totalUpgraded, expected);
     });
 
     it('has owner', async () => {
       const expected = '0x126873242';
 
-      await contractTester.testGetterMethod('owner', expected);
+      contractTester.setupGetterSpy('owner', expected);
+      await contractTester.assertMethod(contract.owner, expected);
     });
 
     it('has totalSupply', async () => {
-      const expected = 28379832;
+      const expected = new BigNumber(28379832);
 
-      await contractTester.testGetterMethod('totalSupply', expected);
+      contractTester.setupGetterSpy('totalSupply', expected);
+      await contractTester.assertMethod(contract.totalSupply, expected);
     });
   });
 
@@ -100,7 +110,7 @@ describe('MarketToken class', () => {
       const userAddress = '0xfe89ff6c794c0e3dad5aa438fe93bcb666e49917';
       const expected = true;
 
-      contractTester.setupWeb3Mock(
+      contractTester.setupMethodSpy(
         'isUserEnabledForContract',
         expected,
         marketContractAddress,
@@ -117,7 +127,11 @@ describe('MarketToken class', () => {
       const userAddress = '0xfe89ff6c794c0e3dad5aa438fe93bcb666e49917';
       const expected = true;
 
-      contractTester.setupWeb3Mock('isBalanceSufficientForContractCreation', expected, userAddress);
+      contractTester.setupMethodSpy(
+        'isBalanceSufficientForContractCreation',
+        expected,
+        userAddress
+      );
 
       await contractTester.assertMethod(
         contract.isBalanceSufficientForContractCreation(userAddress),
@@ -129,7 +143,7 @@ describe('MarketToken class', () => {
       const marketContractAddress = '0xb49f84052f27b938e22e9172235c451a046822ca';
       const qtyToLock = 10;
 
-      contractTester.setupWeb3TxMock(
+      contractTester.setupTxMethodSpy(
         'lockTokensForTradingMarketContractTx',
         {},
         marketContractAddress,
@@ -146,7 +160,7 @@ describe('MarketToken class', () => {
       const marketContractAddress = '0xb49f84052f27b938e22e9172235c451a046822ca';
       const qtyToUnlock = 15;
 
-      contractTester.setupWeb3TxMock(
+      contractTester.setupTxMethodSpy(
         'unlockTokensTx',
         {
           from: '0x73483'
@@ -168,7 +182,7 @@ describe('MarketToken class', () => {
       const userAddress = '0xfe89ff6c794c0e3dad5aa438fe93bcb666e49917';
       const expected = new BigNumber(12);
 
-      contractTester.setupWeb3Mock(
+      contractTester.setupMethodSpy(
         'getLockedBalanceForUser',
         expected,
         marketContractAddress,
@@ -184,7 +198,7 @@ describe('MarketToken class', () => {
     it('has setLockQtyToAllowTrading', async () => {
       const qtyToLock = 10;
 
-      contractTester.setupWeb3TxMock('setLockQtyToAllowTradingTx', {}, qtyToLock);
+      contractTester.setupTxMethodSpy('setLockQtyToAllowTradingTx', {}, qtyToLock);
 
       await contractTester.assertTxMethod(contract.setLockQtyToAllowTradingTx(qtyToLock), {});
     });
@@ -192,7 +206,7 @@ describe('MarketToken class', () => {
     it('has setMinBalanceForContractCreation', async () => {
       const minBalance = 10;
 
-      contractTester.setupWeb3TxMock('setMinBalanceForContractCreationTx', {}, minBalance);
+      contractTester.setupTxMethodSpy('setMinBalanceForContractCreationTx', {}, minBalance);
 
       await contractTester.assertTxMethod(
         contract.setMinBalanceForContractCreationTx(minBalance),
@@ -203,7 +217,7 @@ describe('MarketToken class', () => {
     it('has upgrade', async () => {
       const value = 12890;
 
-      contractTester.setupWeb3TxMock('upgradeTx', {}, value);
+      contractTester.setupTxMethodSpy('upgradeTx', {}, value);
 
       await contractTester.assertTxMethod(contract.upgradeTx(value), {});
     });
@@ -211,7 +225,7 @@ describe('MarketToken class', () => {
     it('has unlockTokens', async () => {
       const address = '0xb49f84052f27b938e22e9172235c451a046822ca';
 
-      contractTester.setupWeb3TxMock('setUpgradeableTargetTx', {}, address);
+      contractTester.setupTxMethodSpy('setUpgradeableTargetTx', {}, address);
 
       await contractTester.assertTxMethod(contract.setUpgradeableTargetTx(address), {});
     });
@@ -220,7 +234,7 @@ describe('MarketToken class', () => {
       const to = '0x3847293';
       const value = 12890;
 
-      contractTester.setupWeb3TxMock('transferTx', {}, to, value);
+      contractTester.setupTxMethodSpy('transferTx', {}, to, value);
 
       await contractTester.assertTxMethod(contract.transferTx(to, value), {});
     });
@@ -229,7 +243,7 @@ describe('MarketToken class', () => {
       const spender = '0x3847293';
       const value = 121;
 
-      contractTester.setupWeb3TxMock('approveTx', {}, spender, value);
+      contractTester.setupTxMethodSpy('approveTx', {}, spender, value);
 
       await contractTester.assertTxMethod(contract.approveTx(spender, value), {});
     });
@@ -239,7 +253,7 @@ describe('MarketToken class', () => {
       const to = '0x3847293';
       const value = 12829;
 
-      contractTester.setupWeb3TxMock('transferFromTx', {}, from, to, value);
+      contractTester.setupTxMethodSpy('transferFromTx', {}, from, to, value);
 
       await contractTester.assertTxMethod(contract.transferFromTx(from, to, value), {});
     });
@@ -247,7 +261,7 @@ describe('MarketToken class', () => {
     it('has burn', async () => {
       const value = 1284578;
 
-      contractTester.setupWeb3TxMock('burnTx', {}, value);
+      contractTester.setupTxMethodSpy('burnTx', {}, value);
 
       await contractTester.assertTxMethod(contract.burnTx(value), {});
     });
@@ -256,7 +270,7 @@ describe('MarketToken class', () => {
       const spender = '0x3847293';
       const subtractedValue = 12890;
 
-      contractTester.setupWeb3TxMock('decreaseApprovalTx', {}, spender, subtractedValue);
+      contractTester.setupTxMethodSpy('decreaseApprovalTx', {}, spender, subtractedValue);
 
       await contractTester.assertTxMethod(
         contract.decreaseApprovalTx(spender, subtractedValue),
@@ -268,7 +282,7 @@ describe('MarketToken class', () => {
       const spender = '0x3847293';
       const addedValue = 12890;
 
-      contractTester.setupWeb3TxMock('increaseApprovalTx', {}, spender, addedValue);
+      contractTester.setupTxMethodSpy('increaseApprovalTx', {}, spender, addedValue);
 
       await contractTester.assertTxMethod(contract.increaseApprovalTx(spender, addedValue), {});
     });
@@ -276,7 +290,7 @@ describe('MarketToken class', () => {
     it('has transferOwnership', async () => {
       const newOwner = '0x3847293';
 
-      contractTester.setupWeb3TxMock('transferOwnershipTx', {}, newOwner);
+      contractTester.setupTxMethodSpy('transferOwnershipTx', {}, newOwner);
 
       await contractTester.assertTxMethod(contract.transferOwnershipTx(newOwner), {});
     });
@@ -285,7 +299,7 @@ describe('MarketToken class', () => {
       const owner = '0x7368732648';
       const expected = new BigNumber(203);
 
-      contractTester.setupWeb3Mock('balanceOf', expected, owner);
+      contractTester.setupMethodSpy('balanceOf', expected, owner);
 
       await contractTester.assertMethod(contract.balanceOf(owner), expected);
     });
@@ -295,9 +309,18 @@ describe('MarketToken class', () => {
       const spender = '0x84789372';
       const expected = new BigNumber(102);
 
-      contractTester.setupWeb3Mock('allowance', expected, owner, spender);
+      contractTester.setupMethodSpy('allowance', expected, owner, spender);
 
       await contractTester.assertMethod(contract.allowance(owner, spender), expected);
     });
+  });
+
+  it('resolves error correctly', async () => {
+    const owner = '0x7368732648';
+    const expected = new Error('Bad value');
+
+    contractTester.setupMethodSpy('balanceOf', expected, owner);
+
+    await contractTester.assertMethod(contract.balanceOf(owner), expected);
   });
 });

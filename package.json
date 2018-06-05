@@ -82,7 +82,7 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 90,
+        "branches": 85,
         "functions": 95,
         "lines": 95,
         "statements": 95
@@ -90,7 +90,7 @@
     },
     "collectCoverage": true
   },
-  "peerDependencies": {
+  "dependencies": {
     "bignumber.js": "^7.2.1",
     "web3": "^0.20.6"
   },
