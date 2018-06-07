@@ -2,7 +2,7 @@
 
 # MARKET Protocol types
 
-This repository containsMARKET Protocol Contract ABIs type definitions 
+This repository contains MARKET Protocol Contract ABIs type definitions 
 
 Join our [Discord Community](https://marketprotocol.io/discord) to interact with members of our dev staff and other contributors.
 
