@@ -11,27 +11,18 @@ import {
   DeferredEventWrapper
 } from './typechain-runtime';
 
-export class MarketContractRegistryInterface extends TypeChainContract {
+export class MarketCollateralPoolFactoryInterface extends TypeChainContract {
   public readonly rawWeb3Contract: any;
 
   public constructor(web3: any, address: string | BigNumber) {
     const abi = [
       {
         constant: false,
-        inputs: [{ name: 'contractAddress', type: 'address' }],
-        name: 'addAddressToWhiteList',
+        inputs: [{ name: 'marketContractAddress', type: 'address' }],
+        name: 'deployMarketCollateralPool',
         outputs: [],
         payable: false,
         stateMutability: 'nonpayable',
-        type: 'function'
-      },
-      {
-        constant: true,
-        inputs: [{ name: 'contractAddress', type: 'address' }],
-        name: 'isAddressWhiteListed',
-        outputs: [{ name: '', type: 'bool' }],
-        payable: false,
-        stateMutability: 'view',
         type: 'function'
       }
     ];
@@ -41,8 +32,8 @@ export class MarketContractRegistryInterface extends TypeChainContract {
   static async createAndValidate(
     web3: any,
     address: string | BigNumber
-  ): Promise<MarketContractRegistryInterface> {
-    const contract = new MarketContractRegistryInterface(web3, address);
+  ): Promise<MarketCollateralPoolFactoryInterface> {
+    const contract = new MarketCollateralPoolFactoryInterface(web3, address);
     const code = await promisify(web3.eth.getCode, [address]);
 
     // in case of missing smartcontract, code can be equal to "0x0" or "0x" depending on exact web3 implementation
@@ -53,15 +44,11 @@ export class MarketContractRegistryInterface extends TypeChainContract {
     return contract;
   }
 
-  public isAddressWhiteListed(contractAddress: BigNumber | string): Promise<boolean> {
-    return promisify(this.rawWeb3Contract.isAddressWhiteListed, [contractAddress.toString()]);
-  }
-
-  public addAddressToWhiteListTx(
-    contractAddress: BigNumber | string
+  public deployMarketCollateralPoolTx(
+    marketContractAddress: BigNumber | string
   ): DeferredTransactionWrapper<ITxParams> {
-    return new DeferredTransactionWrapper<ITxParams>(this, 'addAddressToWhiteList', [
-      contractAddress.toString()
+    return new DeferredTransactionWrapper<ITxParams>(this, 'deployMarketCollateralPool', [
+      marketContractAddress.toString()
     ]);
   }
 }

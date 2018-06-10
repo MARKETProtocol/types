@@ -11,29 +11,11 @@ import {
   DeferredEventWrapper
 } from './typechain-runtime';
 
-export class MarketContractFactoryOraclize extends TypeChainContract {
+export class MarketCollateralPoolFactory extends TypeChainContract {
   public readonly rawWeb3Contract: any;
 
   public constructor(web3: any, address: string | BigNumber) {
     const abi = [
-      {
-        constant: true,
-        inputs: [],
-        name: 'collateralPoolFactoryAddress',
-        outputs: [{ name: '', type: 'address' }],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function'
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: 'MKT_TOKEN_ADDRESS',
-        outputs: [{ name: '', type: 'address' }],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function'
-      },
       {
         constant: true,
         inputs: [],
@@ -62,20 +44,10 @@ export class MarketContractFactoryOraclize extends TypeChainContract {
         type: 'function'
       },
       {
-        inputs: [
-          { name: 'registryAddress', type: 'address' },
-          { name: 'mktTokenAddress', type: 'address' },
-          { name: 'marketCollateralPoolFactoryAddress', type: 'address' }
-        ],
+        inputs: [{ name: 'registryAddress', type: 'address' }],
         payable: false,
         stateMutability: 'nonpayable',
         type: 'constructor'
-      },
-      {
-        anonymous: false,
-        inputs: [{ indexed: true, name: 'contractAddress', type: 'address' }],
-        name: 'MarketContractCreated',
-        type: 'event'
       },
       {
         anonymous: false,
@@ -88,14 +60,8 @@ export class MarketContractFactoryOraclize extends TypeChainContract {
       },
       {
         constant: false,
-        inputs: [
-          { name: 'contractName', type: 'string' },
-          { name: 'collateralTokenAddress', type: 'address' },
-          { name: 'contractSpecs', type: 'uint256[5]' },
-          { name: 'oracleDataSource', type: 'string' },
-          { name: 'oracleQuery', type: 'string' }
-        ],
-        name: 'deployMarketContractOraclize',
+        inputs: [{ name: 'marketContractAddress', type: 'address' }],
+        name: 'deployMarketCollateralPool',
         outputs: [],
         payable: false,
         stateMutability: 'nonpayable',
@@ -117,8 +83,8 @@ export class MarketContractFactoryOraclize extends TypeChainContract {
   static async createAndValidate(
     web3: any,
     address: string | BigNumber
-  ): Promise<MarketContractFactoryOraclize> {
-    const contract = new MarketContractFactoryOraclize(web3, address);
+  ): Promise<MarketCollateralPoolFactory> {
+    const contract = new MarketCollateralPoolFactory(web3, address);
     const code = await promisify(web3.eth.getCode, [address]);
 
     // in case of missing smartcontract, code can be equal to "0x0" or "0x" depending on exact web3 implementation
@@ -129,12 +95,6 @@ export class MarketContractFactoryOraclize extends TypeChainContract {
     return contract;
   }
 
-  public get collateralPoolFactoryAddress(): Promise<string> {
-    return promisify(this.rawWeb3Contract.collateralPoolFactoryAddress, []);
-  }
-  public get MKT_TOKEN_ADDRESS(): Promise<string> {
-    return promisify(this.rawWeb3Contract.MKT_TOKEN_ADDRESS, []);
-  }
   public get owner(): Promise<string> {
     return promisify(this.rawWeb3Contract.owner, []);
   }
@@ -147,19 +107,11 @@ export class MarketContractFactoryOraclize extends TypeChainContract {
       newOwner.toString()
     ]);
   }
-  public deployMarketContractOraclizeTx(
-    contractName: string,
-    collateralTokenAddress: BigNumber | string,
-    contractSpecs: BigNumber[],
-    oracleDataSource: string,
-    oracleQuery: string
+  public deployMarketCollateralPoolTx(
+    marketContractAddress: BigNumber | string
   ): DeferredTransactionWrapper<ITxParams> {
-    return new DeferredTransactionWrapper<ITxParams>(this, 'deployMarketContractOraclize', [
-      contractName.toString(),
-      collateralTokenAddress.toString(),
-      contractSpecs.map(val => val.toString()),
-      oracleDataSource.toString(),
-      oracleQuery.toString()
+    return new DeferredTransactionWrapper<ITxParams>(this, 'deployMarketCollateralPool', [
+      marketContractAddress.toString()
     ]);
   }
   public setRegistryAddressTx(
@@ -170,17 +122,6 @@ export class MarketContractFactoryOraclize extends TypeChainContract {
     ]);
   }
 
-  public MarketContractCreatedEvent(eventFilter: {
-    contractAddress?: BigNumber | string | Array<BigNumber | string>;
-  }): DeferredEventWrapper<
-    { contractAddress: BigNumber | string },
-    { contractAddress?: BigNumber | string | Array<BigNumber | string> }
-  > {
-    return new DeferredEventWrapper<
-      { contractAddress: BigNumber | string },
-      { contractAddress?: BigNumber | string | Array<BigNumber | string> }
-    >(this, 'MarketContractCreated', eventFilter);
-  }
   public OwnershipTransferredEvent(eventFilter: {
     previousOwner?: BigNumber | string | Array<BigNumber | string>;
     newOwner?: BigNumber | string | Array<BigNumber | string>;
