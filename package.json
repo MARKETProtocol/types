@@ -1,7 +1,7 @@
 {
   "name": "@marketprotocol/types",
   "version": "0.1.0",
-  "description": "Library for interacting with MARKET Protocol solidity contracts",
+  "description": "Typescript defintions for MARKET Protocol smart contract ABIs",
   "keywords": [
     "MARKET Protocol",
     "ethereum",
