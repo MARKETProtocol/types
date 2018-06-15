@@ -1,6 +1,6 @@
 {
   "name": "@marketprotocol/types",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Typescript defintions for MARKET Protocol smart contract ABIs",
   "keywords": [
     "MARKET Protocol",
@@ -39,13 +39,13 @@
     "build": "tsc --module commonjs",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
+    "test:prod": "npm run lint && npm run coverage",
+    "coverage": "npm run test -- --coverage --no-cache",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged && npm run build && npm run test:prod",
-    "postinstall": "npm run typechain",
     "typechain": "typechain \"./node_modules/market-solidity/build/contracts/+($npm_package_config_typechain_include).json\" --outDir types --force"
   },
   "lint-staged": {
@@ -79,7 +79,8 @@
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
-      "/test/"
+      "/test/",
+      "/types/typechain-runtime.ts"
     ],
     "coverageThreshold": {
       "global": {
