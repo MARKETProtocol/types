@@ -39,7 +39,8 @@
     "build": "tsc --module commonjs",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
+    "test:prod": "npm run lint && npm run coverage",
+    "coverage": "npm run test -- --coverage --no-cache",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",
     "semantic-release": "semantic-release",
@@ -78,7 +79,8 @@
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
-      "/test/"
+      "/test/",
+      "/types/typechain-runtime.ts"
     ],
     "coverageThreshold": {
       "global": {
