@@ -1,13 +1,27 @@
-export * from './CollateralToken';
-export * from './ERC20';
-export * from './MarketCollateralPool';
-export * from './MarketCollateralPoolFactory';
-export * from './MarketCollateralPoolFactoryInterface';
-export * from './MarketContract';
-export * from './MarketContractFactoryOraclize';
-export * from './MarketContractOraclize';
-export * from './MarketContractRegistry';
-export * from './MarketContractRegistryInterface';
-export * from './MarketToken';
-export * from './OraclizeQueryTest';
-export * from './OrderLib';
+// MARKET Protocol Contract ABIs
+export { CollateralToken } from './CollateralToken';
+export { ERC20 } from './ERC20';
+export { MarketCollateralPool } from './MarketCollateralPool';
+export { MarketCollateralPoolFactory } from './MarketCollateralPoolFactory';
+export { MarketCollateralPoolFactoryInterface } from './MarketCollateralPoolFactoryInterface';
+export { MarketContract } from './MarketContract';
+export { MarketContractFactoryOraclize } from './MarketContractFactoryOraclize';
+export { MarketContractOraclize } from './MarketContractOraclize';
+export { MarketContractRegistry } from './MarketContractRegistry';
+export { MarketContractRegistryInterface } from './MarketContractRegistryInterface';
+export { MarketToken } from './MarketToken';
+export { OraclizeQueryTest } from './OraclizeQueryTest';
+export { OrderLib } from './OrderLib';
+
+// Typechain
+export {
+  DecodedLogEntry,
+  DeferredEventWrapper,
+  DeferredTransactionWrapper,
+  IPayableTxParams,
+  ITxParams,
+  IWatchFilter,
+  LogEntry,
+  promisify,
+  TypeChainContract
+} from './typechain-runtime';

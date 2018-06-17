@@ -1,6 +1,6 @@
 {
   "name": "@marketprotocol/types",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Typescript defintions for MARKET Protocol smart contract ABIs",
   "keywords": [
     "MARKET Protocol",
@@ -31,6 +31,9 @@
     "url": "https://github.com/MARKETProtocol/types/issues"
   },
   "homepage": "https://marketprotocol.io",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "lint": "tslint -t codeFrame 'types/**/*.ts' 'test/**/*.ts'",
     "lint:fix": "tslint --fix -t codeFrame 'types/**/*.ts' 'test/**/*.ts'",
