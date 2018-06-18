@@ -118,7 +118,7 @@ export class OraclizeQueryTest extends TypeChainContract {
   public get QUERY_CALLBACK_GAS(): Promise<BigNumber> {
     return promisify(this.rawWeb3Contract.QUERY_CALLBACK_GAS, []);
   }
-  public getQueryResults(queryID: BigNumber): Promise<string> {
+  public getQueryResults(queryID: string): Promise<string> {
     return promisify(this.rawWeb3Contract.getQueryResults, [queryID.toString()]);
   }
 
@@ -136,7 +136,7 @@ export class OraclizeQueryTest extends TypeChainContract {
       oracleDataSource.toString()
     ]);
   }
-  public __callbackTx(myid: BigNumber, result: string): DeferredTransactionWrapper<ITxParams> {
+  public __callbackTx(myid: string, result: string): DeferredTransactionWrapper<ITxParams> {
     return new DeferredTransactionWrapper<ITxParams>(this, '__callback', [
       myid.toString(),
       result.toString()
@@ -144,25 +144,25 @@ export class OraclizeQueryTest extends TypeChainContract {
   }
 
   public QueryCompletedEvent(eventFilter: {
-    queryIDCompleted?: BigNumber | Array<BigNumber>;
+    queryIDCompleted?: string | Array<string>;
   }): DeferredEventWrapper<
-    { queryIDCompleted: BigNumber },
-    { queryIDCompleted?: BigNumber | Array<BigNumber> }
+    { queryIDCompleted: string },
+    { queryIDCompleted?: string | Array<string> }
   > {
     return new DeferredEventWrapper<
-      { queryIDCompleted: BigNumber },
-      { queryIDCompleted?: BigNumber | Array<BigNumber> }
+      { queryIDCompleted: string },
+      { queryIDCompleted?: string | Array<string> }
     >(this, 'QueryCompleted', eventFilter);
   }
   public QueryScheduledEvent(eventFilter: {
-    queryIDScheduled?: BigNumber | Array<BigNumber>;
+    queryIDScheduled?: string | Array<string>;
   }): DeferredEventWrapper<
-    { queryIDScheduled: BigNumber },
-    { queryIDScheduled?: BigNumber | Array<BigNumber> }
+    { queryIDScheduled: string },
+    { queryIDScheduled?: string | Array<string> }
   > {
     return new DeferredEventWrapper<
-      { queryIDScheduled: BigNumber },
-      { queryIDScheduled?: BigNumber | Array<BigNumber> }
+      { queryIDScheduled: string },
+      { queryIDScheduled?: string | Array<string> }
     >(this, 'QueryScheduled', eventFilter);
   }
   public QueryPriceEvent(eventFilter: {}): DeferredEventWrapper<{ value: BigNumber | number }, {}> {

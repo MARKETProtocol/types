@@ -66,7 +66,7 @@ export class OrderLib extends TypeChainContract {
     orderAddresses: string[],
     unsignedOrderValues: BigNumber[],
     orderQty: BigNumber | number
-  ): Promise<BigNumber> {
+  ): Promise<string> {
     return promisify(this.rawWeb3Contract.createOrderHash, [
       contractAddress.toString(),
       orderAddresses.map(val => val.toString()),
@@ -76,10 +76,10 @@ export class OrderLib extends TypeChainContract {
   }
   public isValidSignature(
     signerAddress: BigNumber | string,
-    hash: BigNumber,
+    hash: string,
     v: BigNumber | number,
-    r: BigNumber,
-    s: BigNumber
+    r: string,
+    s: string
   ): Promise<boolean> {
     return promisify(this.rawWeb3Contract.isValidSignature, [
       signerAddress.toString(),

@@ -437,7 +437,7 @@ export class MarketContractOraclize extends TypeChainContract {
   public get settlementPrice(): Promise<BigNumber> {
     return promisify(this.rawWeb3Contract.settlementPrice, []);
   }
-  public getQtyFilledOrCancelledFromOrder(orderHash: BigNumber): Promise<BigNumber> {
+  public getQtyFilledOrCancelledFromOrder(orderHash: string): Promise<BigNumber> {
     return promisify(this.rawWeb3Contract.getQtyFilledOrCancelledFromOrder, [orderHash.toString()]);
   }
 
@@ -447,8 +447,8 @@ export class MarketContractOraclize extends TypeChainContract {
     orderQty: BigNumber | number,
     qtyToFill: BigNumber | number,
     v: BigNumber | number,
-    r: BigNumber,
-    s: BigNumber
+    r: string,
+    s: string
   ): DeferredTransactionWrapper<ITxParams> {
     return new DeferredTransactionWrapper<ITxParams>(this, 'tradeOrder', [
       orderAddresses.map(val => val.toString()),
@@ -488,7 +488,7 @@ export class MarketContractOraclize extends TypeChainContract {
   public requestEarlySettlementTx(): DeferredTransactionWrapper<IPayableTxParams> {
     return new DeferredTransactionWrapper<IPayableTxParams>(this, 'requestEarlySettlement', []);
   }
-  public __callbackTx(myid: BigNumber, result: string): DeferredTransactionWrapper<ITxParams> {
+  public __callbackTx(myid: string, result: string): DeferredTransactionWrapper<ITxParams> {
     return new DeferredTransactionWrapper<ITxParams>(this, '__callback', [
       myid.toString(),
       result.toString()
@@ -531,19 +531,19 @@ export class MarketContractOraclize extends TypeChainContract {
   }
   public ErrorEvent(eventFilter: {
     errorCode?: BigNumber | number | Array<BigNumber | number>;
-    orderHash?: BigNumber | Array<BigNumber>;
+    orderHash?: string | Array<string>;
   }): DeferredEventWrapper<
-    { errorCode: BigNumber | number; orderHash: BigNumber },
+    { errorCode: BigNumber | number; orderHash: string },
     {
       errorCode?: BigNumber | number | Array<BigNumber | number>;
-      orderHash?: BigNumber | Array<BigNumber>;
+      orderHash?: string | Array<string>;
     }
   > {
     return new DeferredEventWrapper<
-      { errorCode: BigNumber | number; orderHash: BigNumber },
+      { errorCode: BigNumber | number; orderHash: string },
       {
         errorCode?: BigNumber | number | Array<BigNumber | number>;
-        orderHash?: BigNumber | Array<BigNumber>;
+        orderHash?: string | Array<string>;
       }
     >(this, 'Error', eventFilter);
   }
@@ -559,7 +559,7 @@ export class MarketContractOraclize extends TypeChainContract {
       filledQty: BigNumber | number;
       paidMakerFee: BigNumber | number;
       paidTakerFee: BigNumber | number;
-      orderHash: BigNumber;
+      orderHash: string;
     },
     {
       maker?: BigNumber | string | Array<BigNumber | string>;
@@ -575,7 +575,7 @@ export class MarketContractOraclize extends TypeChainContract {
         filledQty: BigNumber | number;
         paidMakerFee: BigNumber | number;
         paidTakerFee: BigNumber | number;
-        orderHash: BigNumber;
+        orderHash: string;
       },
       {
         maker?: BigNumber | string | Array<BigNumber | string>;
@@ -587,18 +587,18 @@ export class MarketContractOraclize extends TypeChainContract {
   public OrderCancelledEvent(eventFilter: {
     maker?: BigNumber | string | Array<BigNumber | string>;
     feeRecipient?: BigNumber | string | Array<BigNumber | string>;
-    orderHash?: BigNumber | Array<BigNumber>;
+    orderHash?: string | Array<string>;
   }): DeferredEventWrapper<
     {
       maker: BigNumber | string;
       feeRecipient: BigNumber | string;
       cancelledQty: BigNumber | number;
-      orderHash: BigNumber;
+      orderHash: string;
     },
     {
       maker?: BigNumber | string | Array<BigNumber | string>;
       feeRecipient?: BigNumber | string | Array<BigNumber | string>;
-      orderHash?: BigNumber | Array<BigNumber>;
+      orderHash?: string | Array<string>;
     }
   > {
     return new DeferredEventWrapper<
@@ -606,12 +606,12 @@ export class MarketContractOraclize extends TypeChainContract {
         maker: BigNumber | string;
         feeRecipient: BigNumber | string;
         cancelledQty: BigNumber | number;
-        orderHash: BigNumber;
+        orderHash: string;
       },
       {
         maker?: BigNumber | string | Array<BigNumber | string>;
         feeRecipient?: BigNumber | string | Array<BigNumber | string>;
-        orderHash?: BigNumber | Array<BigNumber>;
+        orderHash?: string | Array<string>;
       }
     >(this, 'OrderCancelled', eventFilter);
   }
