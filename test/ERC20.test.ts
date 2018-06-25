@@ -5,21 +5,21 @@ import BigNumber from 'bignumber.js';
 
 import { MARKET_CONTRACT_ADDRESS, USER_ADDRESS } from './constants';
 
-describe('MarketToken class', () => {
-  let contractTester: TestContract<MarketToken>;
-  let contract: MarketToken;
+describe('ERC20 class', () => {
+  let contractTester: TestContract<ERC20>;
+  let contract: ERC20;
 
   beforeEach(async () => {
-    contractTester = new TestContract<MarketToken>('MarketToken', MARKET_CONTRACT_ADDRESS);
+    contractTester = new TestContract<ERC20>('ERC20', MARKET_CONTRACT_ADDRESS);
 
-    contract = await contractTester.createContract(MarketToken.createAndValidate);
+    contract = await contractTester.createContract(ERC20.createAndValidate);
   });
 
   it('throws on invalid contract code', async () => {
-    const testC = new TestContract<MarketToken>('MarketToken', MARKET_CONTRACT_ADDRESS, '0x0');
+    const testC = new TestContract<ERC20>('ERC20', MARKET_CONTRACT_ADDRESS, '0x0');
 
     try {
-      await testC.createContract(MarketToken.createAndValidate);
+      await testC.createContract(ERC20.createAndValidate);
 
       fail();
     } catch (e) {
@@ -28,74 +28,60 @@ describe('MarketToken class', () => {
   });
 
   describe('variables', () => {
-    it('has name', async () => {
-      const expected = 'myName';
-
-      contractTester.setupGetterSpy('name', expected);
-      await contractTester.assertMethod(contract.name, expected);
-    });
-
-    it('has symbol', async () => {
-      const expected = 'symbol';
-
-      contractTester.setupGetterSpy('symbol', expected);
-      await contractTester.assertMethod(contract.symbol, expected);
-    });
-
-    it('has decimals', async () => {
-      const expected = new BigNumber(18);
-
-      contractTester.setupGetterSpy('decimals', expected);
-      await contractTester.assertMethod(contract.decimals, expected);
-    });
-
-    it('has INITIAL_SUPPLY', async () => {
-      const expected = new BigNumber(1000000);
-
-      contractTester.setupGetterSpy('INITIAL_SUPPLY', expected);
-      await contractTester.assertMethod(contract.INITIAL_SUPPLY, expected);
-    });
-
-    it('has lockQtyToAllowTrading', async () => {
-      const expected = new BigNumber(200);
-
-      contractTester.setupGetterSpy('lockQtyToAllowTrading', expected);
-      await contractTester.assertMethod(contract.lockQtyToAllowTrading, expected);
-    });
-
-    it('has minBalanceToAllowContractCreation', async () => {
-      const expected = new BigNumber(430);
-
-      contractTester.setupGetterSpy('minBalanceToAllowContractCreation', expected);
-      await contractTester.assertMethod(contract.minBalanceToAllowContractCreation, expected);
-    });
-
-    it('has upgradeableTarget', async () => {
-      const expected = '0x21274617';
-
-      contractTester.setupGetterSpy('upgradeableTarget', expected);
-      await contractTester.assertMethod(contract.upgradeableTarget, expected);
-    });
-
-    it('has totalUpgraded', async () => {
-      const expected = new BigNumber(203);
-
-      contractTester.setupGetterSpy('totalUpgraded', expected);
-      await contractTester.assertMethod(contract.totalUpgraded, expected);
-    });
-
-    it('has owner', async () => {
-      const expected = '0x126873242';
-
-      contractTester.setupGetterSpy('owner', expected);
-      await contractTester.assertMethod(contract.owner, expected);
-    });
-
     it('has totalSupply', async () => {
       const expected = new BigNumber(28379832);
 
       contractTester.setupGetterSpy('totalSupply', expected);
       await contractTester.assertMethod(contract.totalSupply, expected);
+    });
+
+    it('has balanceOf', async () => {
+      const owner = '0x7368732648';
+      const expected = new BigNumber(203);
+
+      contractTester.setupMethodSpy('balanceOf', expected, owner);
+
+      await contractTester.assertMethod(contract.balanceOf(owner), expected);
+    });
+
+    it('has allowance', async () => {
+      const owner = '0x7368732648';
+      const spender = '0x84789372';
+      const expected = new BigNumber(102);
+
+      contractTester.setupMethodSpy('allowance', expected, owner, spender);
+
+      await contractTester.assertMethod(contract.allowance(owner, spender), expected);
+    });
+  });
+
+  describe('methods', () => {
+    it('has transfer', async () => {
+      const to = '0x3847293';
+      const value = 12890;
+
+      contractTester.setupTxMethodSpy('transferTx', {}, to, value);
+
+      await contractTester.assertTxMethod(contract.transferTx(to, value), {});
+    });
+
+    it('has approve', async () => {
+      const spender = '0x3847293';
+      const value = 121;
+
+      contractTester.setupTxMethodSpy('approveTx', {}, spender, value);
+
+      await contractTester.assertTxMethod(contract.approveTx(spender, value), {});
+    });
+
+    it('has transferFrom', async () => {
+      const from = '0x74892';
+      const to = '0x3847293';
+      const value = 12829;
+
+      contractTester.setupTxMethodSpy('transferFromTx', {}, from, to, value);
+
+      await contractTester.assertTxMethod(contract.transferFromTx(from, to, value), {});
     });
   });
 });

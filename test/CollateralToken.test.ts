@@ -134,125 +134,6 @@ describe('CollateralToken class', () => {
   });
 
   describe('methods', () => {
-    it('has isUserEnabledForContract', async () => {
-      const expected = true;
-
-      contractTester.setupMethodSpy(
-        'isUserEnabledForContract',
-        expected,
-        MARKET_CONTRACT_ADDRESS,
-        USER_ADDRESS
-      );
-
-      await contractTester.assertMethod(
-        contract.isUserEnabledForContract(MARKET_CONTRACT_ADDRESS, USER_ADDRESS),
-        expected
-      );
-    });
-
-    it('has isBalanceSufficientForContractCreation', async () => {
-      const expected = true;
-
-      contractTester.setupMethodSpy(
-        'isBalanceSufficientForContractCreation',
-        expected,
-        USER_ADDRESS
-      );
-
-      await contractTester.assertMethod(
-        contract.isBalanceSufficientForContractCreation(USER_ADDRESS),
-        expected
-      );
-    });
-
-    it('has lockTokensForTradingMarketContract', async () => {
-      const qtyToLock = 10;
-
-      contractTester.setupTxMethodSpy(
-        'lockTokensForTradingMarketContractTx',
-        {},
-        MARKET_CONTRACT_ADDRESS,
-        qtyToLock
-      );
-
-      await contractTester.assertTxMethod(
-        contract.lockTokensForTradingMarketContractTx(MARKET_CONTRACT_ADDRESS, qtyToLock),
-        {}
-      );
-    });
-
-    it('has unlockTokens', async () => {
-      const qtyToUnlock = 15;
-
-      contractTester.setupTxMethodSpy(
-        'unlockTokensTx',
-        {
-          from: '0x73483'
-        },
-        MARKET_CONTRACT_ADDRESS,
-        qtyToUnlock
-      );
-
-      await contractTester.assertTxMethod(
-        contract.unlockTokensTx(MARKET_CONTRACT_ADDRESS, qtyToUnlock),
-        {
-          from: '0x73483'
-        }
-      );
-    });
-
-    it('has getLockedBalanceForUser', async () => {
-      const expected = new BigNumber(12);
-
-      contractTester.setupMethodSpy(
-        'getLockedBalanceForUser',
-        expected,
-        MARKET_CONTRACT_ADDRESS,
-        USER_ADDRESS
-      );
-
-      await contractTester.assertMethod(
-        contract.getLockedBalanceForUser(MARKET_CONTRACT_ADDRESS, USER_ADDRESS),
-        expected
-      );
-    });
-
-    it('has setLockQtyToAllowTrading', async () => {
-      const qtyToLock = 10;
-
-      contractTester.setupTxMethodSpy('setLockQtyToAllowTradingTx', {}, qtyToLock);
-
-      await contractTester.assertTxMethod(contract.setLockQtyToAllowTradingTx(qtyToLock), {});
-    });
-
-    it('has setMinBalanceForContractCreation', async () => {
-      const minBalance = 10;
-
-      contractTester.setupTxMethodSpy('setMinBalanceForContractCreationTx', {}, minBalance);
-
-      await contractTester.assertTxMethod(
-        contract.setMinBalanceForContractCreationTx(minBalance),
-        {}
-      );
-    });
-
-    it('has upgrade', async () => {
-      const value = 12890;
-
-      contractTester.setupTxMethodSpy('upgradeTx', {}, value);
-
-      await contractTester.assertTxMethod(contract.upgradeTx(value), {});
-    });
-
-    it('has unlockTokens', async () => {
-      contractTester.setupTxMethodSpy('setUpgradeableTargetTx', {}, MARKET_CONTRACT_ADDRESS);
-
-      await contractTester.assertTxMethod(
-        contract.setUpgradeableTargetTx(MARKET_CONTRACT_ADDRESS),
-        {}
-      );
-    });
-
     it('has transfer', async () => {
       const to = '0x3847293';
       const value = 12890;
@@ -281,14 +162,6 @@ describe('CollateralToken class', () => {
       await contractTester.assertTxMethod(contract.transferFromTx(from, to, value), {});
     });
 
-    it('has burn', async () => {
-      const value = 1284578;
-
-      contractTester.setupTxMethodSpy('burnTx', {}, value);
-
-      await contractTester.assertTxMethod(contract.burnTx(value), {});
-    });
-
     it('has decreaseApproval', async () => {
       const spender = '0x3847293';
       const subtractedValue = 12890;
@@ -308,14 +181,6 @@ describe('CollateralToken class', () => {
       contractTester.setupTxMethodSpy('increaseApprovalTx', {}, spender, addedValue);
 
       await contractTester.assertTxMethod(contract.increaseApprovalTx(spender, addedValue), {});
-    });
-
-    it('has transferOwnership', async () => {
-      const newOwner = '0x3847293';
-
-      contractTester.setupTxMethodSpy('transferOwnershipTx', {}, newOwner);
-
-      await contractTester.assertTxMethod(contract.transferOwnershipTx(newOwner), {});
     });
 
     it('has balanceOf', async () => {
