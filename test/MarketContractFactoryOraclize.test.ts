@@ -3,13 +3,13 @@ import { TestContract } from './TestContract';
 import { MARKET_CONTRACT_ADDRESS } from './constants';
 import BigNumber from 'bignumber.js';
 
-describe('MarketContractOraclize', () => {
+describe('MarketContractFactoryOraclize', () => {
   let contractTester: TestContract<MarketContractFactoryOraclize>;
   let contract: MarketContractFactoryOraclize;
 
   beforeEach(async () => {
     contractTester = new TestContract<MarketContractFactoryOraclize>(
-      'MarketContractOraclize',
+      'MarketContractFactoryOraclize',
       MARKET_CONTRACT_ADDRESS
     );
     contract = await contractTester.createContract(MarketContractFactoryOraclize.createAndValidate);
@@ -17,7 +17,7 @@ describe('MarketContractOraclize', () => {
 
   it('throws on invalid contract code', async () => {
     const testContract = new TestContract<MarketContractFactoryOraclize>(
-      'MarketContractOraclize',
+      'MarketContractFactoryOraclize',
       MARKET_CONTRACT_ADDRESS,
       '0x0'
     );
