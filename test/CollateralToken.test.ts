@@ -16,7 +16,11 @@ describe('CollateralToken class', () => {
   });
 
   it('throws on invalid contract code', async () => {
-    const testC = new TestContract<CollateralToken>('CollateralToken', MARKET_CONTRACT_ADDRESS, '0x0');
+    const testC = new TestContract<CollateralToken>(
+      'CollateralToken',
+      MARKET_CONTRACT_ADDRESS,
+      '0x0'
+    );
 
     try {
       await testC.createContract(CollateralToken.createAndValidate);
@@ -33,15 +37,6 @@ describe('CollateralToken class', () => {
 
       contractTester.setupGetterSpy('name', expected);
       await contractTester.assertMethod(contract.name, expected);
-    });
-
-    it('has approve', async () => {
-      const spender = '0x3847293';
-      const value = 121;
-
-      contractTester.setupTxMethodSpy('approveTx', {}, spender, value);
-
-      await contractTester.assertTxMethod(contract.approveTx(spender, value), {});
     });
 
     it('has totalSupply', async () => {
@@ -65,6 +60,15 @@ describe('CollateralToken class', () => {
       await contractTester.assertMethod(contract.decimals, expected);
     });
 
+    it('has symbol', async () => {
+      const expected = 'symbol';
+
+      contractTester.setupGetterSpy('symbol', expected);
+      await contractTester.assertMethod(contract.symbol, expected);
+    });
+  });
+
+  describe('methods', () => {
     it('has balanceOf', async () => {
       const owner = '0x7368732648';
       const expected = new BigNumber(203);
@@ -72,22 +76,6 @@ describe('CollateralToken class', () => {
       contractTester.setupMethodSpy('balanceOf', expected, owner);
 
       await contractTester.assertMethod(contract.balanceOf(owner), expected);
-    });
-
-    it('has symbol', async () => {
-      const expected = 'symbol';
-
-      contractTester.setupGetterSpy('symbol', expected);
-      await contractTester.assertMethod(contract.symbol, expected);
-    });
-
-    it('has transfer', async () => {
-      const to = '0x3847293';
-      const value = 12890;
-
-      contractTester.setupTxMethodSpy('transferTx', {}, to, value);
-
-      await contractTester.assertTxMethod(contract.transferTx(to, value), {});
     });
 
     it('has allowance', async () => {
@@ -99,9 +87,16 @@ describe('CollateralToken class', () => {
 
       await contractTester.assertMethod(contract.allowance(owner, spender), expected);
     });
-  });
 
-  describe('methods', () => {
+    it('has approve', async () => {
+      const spender = '0x3847293';
+      const value = 121;
+
+      contractTester.setupTxMethodSpy('approveTx', {}, spender, value);
+
+      await contractTester.assertTxMethod(contract.approveTx(spender, value), {});
+    });
+
     it('has transferFrom', async () => {
       const from = '0x74892';
       const to = '0x3847293';
@@ -122,6 +117,15 @@ describe('CollateralToken class', () => {
         contract.decreaseApprovalTx(spender, subtractedValue),
         {}
       );
+    });
+
+    it('has transfer', async () => {
+      const to = '0x3847293';
+      const value = 12890;
+
+      contractTester.setupTxMethodSpy('transferTx', {}, to, value);
+
+      await contractTester.assertTxMethod(contract.transferTx(to, value), {});
     });
 
     it('has increaseApproval', async () => {

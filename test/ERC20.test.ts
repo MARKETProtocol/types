@@ -34,7 +34,9 @@ describe('ERC20 class', () => {
       contractTester.setupGetterSpy('totalSupply', expected);
       await contractTester.assertMethod(contract.totalSupply, expected);
     });
+  });
 
+  describe('methods', () => {
     it('has balanceOf', async () => {
       const owner = '0x7368732648';
       const expected = new BigNumber(203);
@@ -53,9 +55,7 @@ describe('ERC20 class', () => {
 
       await contractTester.assertMethod(contract.allowance(owner, spender), expected);
     });
-  });
 
-  describe('methods', () => {
     it('has transfer', async () => {
       const to = '0x3847293';
       const value = 12890;
@@ -63,15 +63,6 @@ describe('ERC20 class', () => {
       contractTester.setupTxMethodSpy('transferTx', {}, to, value);
 
       await contractTester.assertTxMethod(contract.transferTx(to, value), {});
-    });
-
-    it('has approve', async () => {
-      const spender = '0x3847293';
-      const value = 121;
-
-      contractTester.setupTxMethodSpy('approveTx', {}, spender, value);
-
-      await contractTester.assertTxMethod(contract.approveTx(spender, value), {});
     });
 
     it('has transferFrom', async () => {
@@ -82,6 +73,15 @@ describe('ERC20 class', () => {
       contractTester.setupTxMethodSpy('transferFromTx', {}, from, to, value);
 
       await contractTester.assertTxMethod(contract.transferFromTx(from, to, value), {});
+    });
+
+    it('has approve', async () => {
+      const spender = '0x3847293';
+      const value = 121;
+
+      contractTester.setupTxMethodSpy('approveTx', {}, spender, value);
+
+      await contractTester.assertTxMethod(contract.approveTx(spender, value), {});
     });
   });
 });
