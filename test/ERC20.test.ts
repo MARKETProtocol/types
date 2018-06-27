@@ -1,0 +1,87 @@
+import { ERC20 } from '../types/ERC20';
+import { TestContract } from './TestContract';
+
+import BigNumber from 'bignumber.js';
+
+import { MARKET_CONTRACT_ADDRESS, USER_ADDRESS } from './constants';
+
+describe('ERC20 class', () => {
+  let contractTester: TestContract<ERC20>;
+  let contract: ERC20;
+
+  beforeEach(async () => {
+    contractTester = new TestContract<ERC20>('ERC20', MARKET_CONTRACT_ADDRESS);
+
+    contract = await contractTester.createContract(ERC20.createAndValidate);
+  });
+
+  it('throws on invalid contract code', async () => {
+    const testC = new TestContract<ERC20>('ERC20', MARKET_CONTRACT_ADDRESS, '0x0');
+
+    try {
+      await testC.createContract(ERC20.createAndValidate);
+
+      fail();
+    } catch (e) {
+      expect(e.message).toContain('doesn\'t exist');
+    }
+  });
+
+  describe('variables', () => {
+    it('has totalSupply', async () => {
+      const expected = new BigNumber(28379832);
+
+      contractTester.setupGetterSpy('totalSupply', expected);
+      await contractTester.assertMethod(contract.totalSupply, expected);
+    });
+
+    it('has balanceOf', async () => {
+      const owner = '0x7368732648';
+      const expected = new BigNumber(203);
+
+      contractTester.setupMethodSpy('balanceOf', expected, owner);
+
+      await contractTester.assertMethod(contract.balanceOf(owner), expected);
+    });
+
+    it('has allowance', async () => {
+      const owner = '0x7368732648';
+      const spender = '0x84789372';
+      const expected = new BigNumber(102);
+
+      contractTester.setupMethodSpy('allowance', expected, owner, spender);
+
+      await contractTester.assertMethod(contract.allowance(owner, spender), expected);
+    });
+  });
+
+  describe('methods', () => {
+    it('has transfer', async () => {
+      const to = '0x3847293';
+      const value = 12890;
+
+      contractTester.setupTxMethodSpy('transferTx', {}, to, value);
+
+      await contractTester.assertTxMethod(contract.transferTx(to, value), {});
+    });
+
+    it('has approve', async () => {
+      const spender = '0x3847293';
+      const value = 121;
+
+      contractTester.setupTxMethodSpy('approveTx', {}, spender, value);
+
+      await contractTester.assertTxMethod(contract.approveTx(spender, value), {});
+    });
+
+    it('has transferFrom', async () => {
+      const from = '0x74892';
+      const to = '0x3847293';
+      const value = 12829;
+
+      contractTester.setupTxMethodSpy('transferFromTx', {}, from, to, value);
+
+      await contractTester.assertTxMethod(contract.transferFromTx(from, to, value), {});
+    });
+  });
+});
