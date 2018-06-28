@@ -73,7 +73,10 @@ export class MarketContractFactoryOraclize extends TypeChainContract {
       },
       {
         anonymous: false,
-        inputs: [{ indexed: true, name: 'contractAddress', type: 'address' }],
+        inputs: [
+          { indexed: true, name: 'creator', type: 'address' },
+          { indexed: true, name: 'contractAddress', type: 'address' }
+        ],
         name: 'MarketContractCreated',
         type: 'event'
       },
@@ -171,14 +174,21 @@ export class MarketContractFactoryOraclize extends TypeChainContract {
   }
 
   public MarketContractCreatedEvent(eventFilter: {
+    creator?: BigNumber | string | Array<BigNumber | string>;
     contractAddress?: BigNumber | string | Array<BigNumber | string>;
   }): DeferredEventWrapper<
-    { contractAddress: BigNumber | string },
-    { contractAddress?: BigNumber | string | Array<BigNumber | string> }
+    { creator: BigNumber | string; contractAddress: BigNumber | string },
+    {
+      creator?: BigNumber | string | Array<BigNumber | string>;
+      contractAddress?: BigNumber | string | Array<BigNumber | string>;
+    }
   > {
     return new DeferredEventWrapper<
-      { contractAddress: BigNumber | string },
-      { contractAddress?: BigNumber | string | Array<BigNumber | string> }
+      { creator: BigNumber | string; contractAddress: BigNumber | string },
+      {
+        creator?: BigNumber | string | Array<BigNumber | string>;
+        contractAddress?: BigNumber | string | Array<BigNumber | string>;
+      }
     >(this, 'MarketContractCreated', eventFilter);
   }
   public OwnershipTransferredEvent(eventFilter: {
