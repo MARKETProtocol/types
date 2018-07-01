@@ -134,25 +134,6 @@ describe('MarketContract class', () => {
     });
   });
 
-  //  transferCreator //
-  //  tradeOrder //
-  // cancelOrder //
-  // setCollateralPoolContractAddress //
-  // requestEarlySettlement //
-  // getQtyFilledOrCancelledFromOrder //
-  //
-  //  EVENTS //
-  //  UpdatedLastPrice
-  //  ContractSettled
-  //  UpdatedUserBalance
-  //  UpdatedPoolBalance
-  //  OrderFilled
-  //  OrderCancelled
-  //  CreatorTransferred
-  // 
-  // METHODS //
-  // transferTx
-  // balanceOf
   describe('methods', () => {
     it('has transferCreator', async () => {
       const creatorAddress = '0xd43530377Db4560de29fBc5334f567feEd3649aC';
