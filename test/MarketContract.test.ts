@@ -27,7 +27,7 @@ describe('MarketContract class', () => {
     }
   });
 
- describe('variables', () => {
+  describe('variables', () => {
     it('has creator', async () => {
       const expected = '0x7368732648';
 
