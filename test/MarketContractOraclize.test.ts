@@ -60,6 +60,13 @@ describe('MarketContractOraclize', () => {
       await contractTester.assertMethod(contract.PRICE_DECIMAL_PLACES, expected);
     });
 
+    it('has COLLATERAL_TOKEN_ADDRESS', async () => {
+      const expected = '0x0c58e89866dda96911a78dedf069a1848618c185';
+
+      contractTester.setupGetterSpy('COLLATERAL_TOKEN_ADDRESS', expected);
+      await contractTester.assertMethod(contract.COLLATERAL_TOKEN_ADDRESS, expected);
+    });
+
     it('has isSettled', async () => {
       const expected = false;
 
@@ -142,6 +149,13 @@ describe('MarketContractOraclize', () => {
 
       contractTester.setupGetterSpy('QTY_MULTIPLIER', expected);
       await contractTester.assertMethod(contract.QTY_MULTIPLIER, expected);
+    });
+
+    it('has COLLATERAL_POOL_FACTORY_ADDRESS', async () => {
+      const expected = '0x0c58e89866dda96911a78dedf069a1848618c185';
+
+      contractTester.setupGetterSpy('COLLATERAL_POOL_FACTORY_ADDRESS', expected);
+      await contractTester.assertMethod(contract.COLLATERAL_POOL_FACTORY_ADDRESS, expected);
     });
 
     it('has settlementPrice', async () => {
