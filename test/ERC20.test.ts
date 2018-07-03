@@ -1,9 +1,8 @@
-import { ERC20 } from '../types/ERC20';
-import { TestContract } from './TestContract';
-
 import BigNumber from 'bignumber.js';
 
-import { MARKET_CONTRACT_ADDRESS, USER_ADDRESS } from './constants';
+import { MARKET_CONTRACT_ADDRESS } from './constants';
+import { TestContract } from './TestContract';
+import { ERC20 } from '../types';
 
 describe('ERC20 class', () => {
   let contractTester: TestContract<ERC20>;

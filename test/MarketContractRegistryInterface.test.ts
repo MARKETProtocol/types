@@ -1,6 +1,6 @@
-import { MarketContractRegistryInterface } from '../types/MarketContractRegistryInterface';
-import { TestContract } from './TestContract';
 import { MARKET_CONTRACT_ADDRESS } from './constants';
+import { TestContract } from './TestContract';
+import { MarketContractRegistryInterface } from '../types';
 
 describe('MarketContractRegistryInterface', () => {
   let contractTester: TestContract<MarketContractRegistryInterface>;

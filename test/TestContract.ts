@@ -1,12 +1,8 @@
+import BigNumber from 'bignumber.js';
 import Web3, { ContractInstance } from 'web3';
 import FakeProvider from 'web3-fake-provider';
-import BigNumber from 'bignumber.js';
 
-import {
-  DeferredTransactionWrapper,
-  ITxParams,
-  TypeChainContract
-} from '../types/typechain-runtime';
+import { DeferredTransactionWrapper, ITxParams, TypeChainContract } from '../types';
 
 import { AbiDefinition } from '@0xproject/types';
 

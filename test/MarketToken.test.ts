@@ -1,9 +1,8 @@
-import { MarketToken } from '../types/MarketToken';
-import { TestContract } from './TestContract';
-
 import BigNumber from 'bignumber.js';
 
 import { MARKET_CONTRACT_ADDRESS, USER_ADDRESS } from './constants';
+import { TestContract } from './TestContract';
+import { MarketToken } from '../types';
 
 describe('MarketToken class', () => {
   let contractTester: TestContract<MarketToken>;

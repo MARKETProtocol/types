@@ -1,7 +1,8 @@
-import { MarketContractOraclize } from '../types/MarketContractOraclize';
-import { TestContract } from './TestContract';
-import { MARKET_CONTRACT_ADDRESS } from './constants';
 import BigNumber from 'bignumber.js';
+
+import { MARKET_CONTRACT_ADDRESS } from './constants';
+import { TestContract } from './TestContract';
+import { MarketContractOraclize } from '../types';
 
 describe('MarketContractOraclize', () => {
   let contractTester: TestContract<MarketContractOraclize>;
@@ -208,7 +209,15 @@ describe('MarketContractOraclize', () => {
       );
 
       await contractTester.assertTxMethod(
-        contract.tradeOrderTx(orderAddresses, unsignedOrderValues, orderQty, qtyToFill, v, r, s),
+        contract.tradeOrderTx(
+          orderAddresses,
+          unsignedOrderValues,
+          orderQty,
+          qtyToFill,
+          v,
+          r.toString(),
+          s.toString()
+        ),
         {}
       );
     });
@@ -265,7 +274,7 @@ describe('MarketContractOraclize', () => {
       const myId = new BigNumber(33333333333333333333);
       const result = 'result';
       contractTester.setupTxMethodSpy('__callbackTx', {}, myId, result);
-      await contractTester.assertTxMethod(contract.__callbackTx(myId, result), {});
+      await contractTester.assertTxMethod(contract.__callbackTx(myId.toString(), result), {});
     });
   });
 });

@@ -1,6 +1,6 @@
 {
   "name": "@marketprotocol/types",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Typescript defintions for MARKET Protocol smart contract ABIs",
   "keywords": [
     "MARKET Protocol",
@@ -42,7 +42,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:prod": "npm run lint && npm run build && npm run coverage",
-    "coverage": "npm run test -- --coverage --no-cache",
+    "coverage": "npm run test -- --coverage --no-cache --verbose",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",
     "semantic-release": "semantic-release",
@@ -86,10 +86,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 50,
-        "functions": 50,
-        "lines": 50,
-        "statements": 50
+        "branches": 75,
+        "functions": 75,
+        "lines": 75,
+        "statements": 75
       }
     },
     "collectCoverage": true
@@ -99,6 +99,7 @@
     "web3": "^0.20.6"
   },
   "devDependencies": {
+    "@0xproject/types": "^0.8.1",
     "@0xproject/typescript-typings": "^0.4.1",
     "@types/jest": "^23.1.2",
     "@types/node": "^10.3.6",

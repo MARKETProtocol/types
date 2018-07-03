@@ -1,9 +1,8 @@
-import { MarketContract } from '../types/MarketContract';
-import { TestContract } from './TestContract';
-
 import BigNumber from 'bignumber.js';
 
-import { MARKET_CONTRACT_ADDRESS, USER_ADDRESS } from './constants';
+import { MARKET_CONTRACT_ADDRESS } from './constants';
+import { TestContract } from './TestContract';
+import { MarketContract } from '../types';
 
 describe('MarketContract class', () => {
   let contractTester: TestContract<MarketContract>;
@@ -16,7 +15,11 @@ describe('MarketContract class', () => {
   });
 
   it('throws on invalid contract code', async () => {
-    const testC = new TestContract<MarketContract>('MarketContract', MARKET_CONTRACT_ADDRESS, '0x0');
+    const testC = new TestContract<MarketContract>(
+      'MarketContract',
+      MARKET_CONTRACT_ADDRESS,
+      '0x0'
+    );
 
     try {
       await testC.createContract(MarketContract.createAndValidate);
@@ -198,7 +201,15 @@ describe('MarketContract class', () => {
       );
 
       await contractTester.assertTxMethod(
-        contract.tradeOrderTx(orderAddresses, unsignedOrderValues, orderQty, qtyToFill, v, r, s),
+        contract.tradeOrderTx(
+          orderAddresses,
+          unsignedOrderValues,
+          orderQty,
+          qtyToFill,
+          v,
+          r.toString(),
+          s.toString()
+        ),
         {}
       );
     });

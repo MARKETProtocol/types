@@ -1,7 +1,8 @@
-import { OrderLib } from '../types/OrderLib';
-import { TestContract } from './TestContract';
-import { MARKET_CONTRACT_ADDRESS } from './constants';
 import BigNumber from 'bignumber.js';
+
+import { MARKET_CONTRACT_ADDRESS } from './constants';
+import { TestContract } from './TestContract';
+import { OrderLib } from '../types';
 
 describe('OrderLib', () => {
   let contractTester: TestContract<OrderLib>;
@@ -64,7 +65,7 @@ describe('OrderLib', () => {
 
       contractTester.setupMethodSpy('isValidSignature', expected, signerAddress, hash, v, r, s);
       await contractTester.assertMethod(
-        contract.isValidSignature(signerAddress, hash, v, r, s),
+        contract.isValidSignature(signerAddress, hash, v, r.toString(), s.toString()),
         expected
       );
     });

@@ -1,9 +1,8 @@
-import { CollateralToken } from '../types/CollateralToken';
-import { TestContract } from './TestContract';
-
 import BigNumber from 'bignumber.js';
 
-import { MARKET_CONTRACT_ADDRESS, USER_ADDRESS } from './constants';
+import { MARKET_CONTRACT_ADDRESS } from './constants';
+import { TestContract } from './TestContract';
+import { CollateralToken } from '../types';
 
 describe('CollateralToken class', () => {
   let contractTester: TestContract<CollateralToken>;

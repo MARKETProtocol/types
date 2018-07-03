@@ -1,7 +1,8 @@
-import { MarketCollateralPool } from '../types/MarketCollateralPool.ts';
-import { TestContract } from './TestContract';
-import { MARKET_CONTRACT_ADDRESS } from './constants';
 import BigNumber from 'bignumber.js';
+
+import { MARKET_CONTRACT_ADDRESS } from './constants';
+import { TestContract } from './TestContract';
+import { MarketCollateralPool } from '../types';
 
 describe('MarketCollateralPool', () => {
   let contractTester: TestContract<MarketCollateralPool>;
@@ -60,10 +61,7 @@ describe('MarketCollateralPool', () => {
       const expected = new BigNumber(1000);
 
       contractTester.setupMethodSpy('userAddressToAccountBalance', expected, address);
-      await contractTester.assertMethod(
-        contract.userAddressToAccountBalance(address),
-        expected
-      );
+      await contractTester.assertMethod(contract.userAddressToAccountBalance(address), expected);
     });
 
     it('has getUserPosition', async () => {
@@ -71,10 +69,7 @@ describe('MarketCollateralPool', () => {
       const expected = new BigNumber(1000);
 
       contractTester.setupMethodSpy('getUserPosition', expected, address);
-      await contractTester.assertMethod(
-        contract.getUserPosition(address),
-        expected
-      );
+      await contractTester.assertMethod(contract.getUserPosition(address), expected);
     });
 
     it('has getUserAccountBalance', async () => {
@@ -82,10 +77,7 @@ describe('MarketCollateralPool', () => {
       const expected = new BigNumber(1000);
 
       contractTester.setupMethodSpy('getUserAccountBalance', expected, address);
-      await contractTester.assertMethod(
-        contract.getUserAccountBalance(address),
-        expected
-      );
+      await contractTester.assertMethod(contract.getUserAccountBalance(address), expected);
     });
 
     it('has depositTokensForTrading', async () => {
@@ -105,19 +97,9 @@ describe('MarketCollateralPool', () => {
       const qty = 12829;
       const price = 13373;
 
-      contractTester.setupTxMethodSpy(
-        'updatePositionsTx',
-        {},
-        maker,
-        taker,
-        qty,
-        price
-      );
+      contractTester.setupTxMethodSpy('updatePositionsTx', {}, maker, taker, qty, price);
 
-      await contractTester.assertTxMethod(
-        contract.updatePositionsTx(maker, taker, qty, price),
-        {}
-      );
+      await contractTester.assertTxMethod(contract.updatePositionsTx(maker, taker, qty, price), {});
     });
 
     it('has withdrawTokens', async () => {

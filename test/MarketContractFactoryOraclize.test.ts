@@ -1,7 +1,8 @@
-import { MarketContractFactoryOraclize } from '../types/MarketContractFactoryOraclize';
-import { TestContract } from './TestContract';
-import { MARKET_CONTRACT_ADDRESS } from './constants';
 import BigNumber from 'bignumber.js';
+
+import { MARKET_CONTRACT_ADDRESS } from './constants';
+import { TestContract } from './TestContract';
+import { MarketContractFactoryOraclize } from '../types';
 
 describe('MarketContractFactoryOraclize', () => {
   let contractTester: TestContract<MarketContractFactoryOraclize>;
