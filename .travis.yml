@@ -16,3 +16,12 @@ script:
 after_success:
   - npm run report-coverage
   - npm run semantic-release
+deploy:
+  - provider: npm
+    email: phil@marketprotocol.io
+    skip_cleanup: true
+    api_key:
+      secure: NGLJNnMEyN37ULf62IBdQQwfmJ1bfkAT+2dk3Mvb/3kBzWea8T8/NGsXY1MXWz9w5ff6Xq9+t76FL1BgeQlmfCI+6l2LWspaA9whc9KZA5oFk1PhshnVwlir0ibMjuAvKjjoLuMjsYspRHYiYlwuClZuPELtWbEUWp2f4ec4IfQVwRVcaqd+Vbm9Dhayd/PCtSAfN6MnkRWCZtzCFDBl9GmPURaxtPDZAFlhHBdTC8d6EpOtZBUOMxeWjd/BuPTCODfyRpCPgJXblENuFis/KaJfFSuBm8/An5eNpKs+92D00aqwX14LxZZeTs6/Qnt1RqcFhO8f98IQEz1tqbNWSc6h6+24HpjehfS8G2RChA/BEhr4h0r0WEXGgyj0gKXnELzNdNo/uLE8dOCscTGrUXvJi59AzSDeeVGqQ9kU+4yqxNRPhw9h8WD2lubaUJCJdIWHt5fSXQqj87/Pv2nvShsUQZwSXO2KOcnldcUKWRSw3qHhQcYctFvwVBcKuivWJWJfxnO6VE3ft6VFX6d95tk51L0dAvjowb6J2GIGNLo1q06EWwHQeA5qqBnGDCCvasVtKN8RaWZu77H0iszhTXOf6LLisYTQKnll73nMfGNxoVQplsqCmNPOMEzp9jbxHOKQ7fyaas0fVu3z5qbC8REMiuqmidl7VevYthhZv/o=
+    on:
+      branch: master
+      tags: true
