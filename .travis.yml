@@ -1,9 +1,4 @@
 language: node_js
-branches:
-  only:
-    - master
-    - develop
-    - /^greenkeeper.*$/
 cache:
   directories:
     - node_modules
@@ -15,7 +10,6 @@ script:
   - npm run test:prod
 after_success:
   - npm run report-coverage
-  - npm run semantic-release
 deploy:
   - provider: npm
     email: phil@marketprotocol.io
