@@ -11,5 +11,8 @@ export enum MarketError {
   NoNetworkId = 'NO_NETWORK_ID',
   SubscriptionNotFound = 'SUBSCRIPTION_NOT_FOUND',
   SubscriptionAlreadyPresent = 'SUBSCRIPTION_ALREADY_PRESENT',
-
+  InvalidTaker = 'INVALID_TAKER',
+  OrderExpired = 'ORDER_EXPIRED',
+  OrderFilledOrCancelled = 'ORDER_FILLED_OR_CANCELLED',
+  BuySellMismatch = 'BUY/SELL MISMATCH'
 }
