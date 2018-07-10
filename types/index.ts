@@ -11,7 +11,6 @@ export { MarketContractFactoryOraclize } from './MarketContractFactoryOraclize';
 export { MarketContractOraclize } from './MarketContractOraclize';
 export { MarketContractRegistry } from './MarketContractRegistry';
 export { MarketContractRegistryInterface } from './MarketContractRegistryInterface';
-export { MarketError } from './MarketError';
 export { MarketToken } from './MarketToken';
 export { OraclizeQueryTest } from './OraclizeQueryTest';
 export { ECSignature, Order, SignedOrder } from './Order';
