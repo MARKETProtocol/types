@@ -30,7 +30,7 @@ export class TestContract<T extends TypeChainContract> {
 
     this.mockWeb3Contract = {
       address: address,
-      abi: require(`../node_modules/market-solidity/build/contracts/${contractName}.json`)
+      abi: require(`../node_modules/@marketprotocol/marketprotocol/build/contracts/${contractName}.json`)
     };
 
     spyOn(this.mockWeb3.eth, 'getCode').and.callFake(
