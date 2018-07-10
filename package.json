@@ -48,7 +48,7 @@
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged",
-    "typechain": "typechain \"./node_modules/market-solidity/build/contracts/+($npm_package_config_typechain_include).json\" --outDir types --force"
+    "typechain": "typechain \"./node_modules/@marketprotocol/marketprotocol/build/contracts/+($npm_package_config_typechain_include).json\" --outDir types --force"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
@@ -66,7 +66,7 @@
       "helpMessage": "Use \"npm run commit\" instead, we use conventional-changelog format :) (https://github.com/commitizen/cz-cli)"
     },
     "typechain": {
-      "include": "Market*|CollateralToken|OraclizeQueryTest|ERC20|OrderLib"
+      "include": "Market*|CollateralToken|OraclizeQueryTest|ERC20|OrderLib|MathLib"
     }
   },
   "jest": {
@@ -101,6 +101,7 @@
   "devDependencies": {
     "@0xproject/types": "^0.8.1",
     "@0xproject/typescript-typings": "^0.4.1",
+    "@marketprotocol/marketprotocol": "^1.2.0",
     "@types/jest": "^23.1.2",
     "@types/node": "^10.3.6",
     "commitizen": "^2.10.1",

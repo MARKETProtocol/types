@@ -218,6 +218,7 @@ export class MarketContract extends TypeChainContract {
           { indexed: false, name: 'filledQty', type: 'int256' },
           { indexed: false, name: 'paidMakerFee', type: 'uint256' },
           { indexed: false, name: 'paidTakerFee', type: 'uint256' },
+          { indexed: false, name: 'price', type: 'uint256' },
           { indexed: false, name: 'orderHash', type: 'bytes32' }
         ],
         name: 'OrderFilled',
@@ -478,6 +479,7 @@ export class MarketContract extends TypeChainContract {
       filledQty: BigNumber | number;
       paidMakerFee: BigNumber | number;
       paidTakerFee: BigNumber | number;
+      price: BigNumber | number;
       orderHash: string;
     },
     {
@@ -494,6 +496,7 @@ export class MarketContract extends TypeChainContract {
         filledQty: BigNumber | number;
         paidMakerFee: BigNumber | number;
         paidTakerFee: BigNumber | number;
+        price: BigNumber | number;
         orderHash: string;
       },
       {
