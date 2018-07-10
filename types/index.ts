@@ -1,7 +1,6 @@
 // MARKET Protocol Contract ABIs
 export { Artifact } from './Artifact';
 export { CollateralToken } from './CollateralToken';
-export { BlockParam, BlockParamLiteral, MARKETProtocolConfig, OrderStateWatcherConfig } from './Configs';
 export { ERC20 } from './ERC20';
 export { MarketCollateralPool } from './MarketCollateralPool';
 export { MarketCollateralPoolFactory } from './MarketCollateralPoolFactory';
