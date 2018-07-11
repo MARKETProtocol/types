@@ -14,6 +14,7 @@ export { MarketToken } from './MarketToken';
 export { OraclizeQueryTest } from './OraclizeQueryTest';
 export { ECSignature, Order, SignedOrder } from './Order';
 export { OrderLib } from './OrderLib';
+export { MathLib } from './MathLib';
 
 // Typechain
 export {
