@@ -76,8 +76,26 @@ export class MarketCollateralPool extends TypeChainContract {
       {
         constant: true,
         inputs: [{ name: 'userAddress', type: 'address' }],
-        name: 'getUserPosition',
+        name: 'getUserNetPosition',
         outputs: [{ name: '', type: 'int256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+      },
+      {
+        constant: true,
+        inputs: [{ name: 'userAddress', type: 'address' }],
+        name: 'getUserPositionCount',
+        outputs: [{ name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+      },
+      {
+        constant: true,
+        inputs: [{ name: 'userAddress', type: 'address' }, { name: 'index', type: 'uint256' }],
+        name: 'getUserPosition',
+        outputs: [{ name: '', type: 'uint256' }, { name: '', type: 'int256' }],
         payable: false,
         stateMutability: 'view',
         type: 'function'
@@ -163,8 +181,20 @@ export class MarketCollateralPool extends TypeChainContract {
   public userAddressToAccountBalance(arg0: BigNumber | string): Promise<BigNumber> {
     return promisify(this.rawWeb3Contract.userAddressToAccountBalance, [arg0.toString()]);
   }
-  public getUserPosition(userAddress: BigNumber | string): Promise<BigNumber> {
-    return promisify(this.rawWeb3Contract.getUserPosition, [userAddress.toString()]);
+  public getUserNetPosition(userAddress: BigNumber | string): Promise<BigNumber> {
+    return promisify(this.rawWeb3Contract.getUserNetPosition, [userAddress.toString()]);
+  }
+  public getUserPositionCount(userAddress: BigNumber | string): Promise<BigNumber> {
+    return promisify(this.rawWeb3Contract.getUserPositionCount, [userAddress.toString()]);
+  }
+  public getUserPosition(
+    userAddress: BigNumber | string,
+    index: BigNumber | number
+  ): Promise<[BigNumber, BigNumber]> {
+    return promisify(this.rawWeb3Contract.getUserPosition, [
+      userAddress.toString(),
+      index.toString()
+    ]);
   }
   public getUserAccountBalance(userAddress: BigNumber | string): Promise<BigNumber> {
     return promisify(this.rawWeb3Contract.getUserAccountBalance, [userAddress.toString()]);

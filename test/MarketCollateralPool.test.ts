@@ -64,12 +64,12 @@ describe('MarketCollateralPool', () => {
       await contractTester.assertMethod(contract.userAddressToAccountBalance(address), expected);
     });
 
-    it('has getUserPosition', async () => {
+    it('has getUserNetPosition', async () => {
       const address = '0x11f68c2a0df5b85781bb0f617d502c3a7d354d31';
       const expected = new BigNumber(1000);
 
-      contractTester.setupMethodSpy('getUserPosition', expected, address);
-      await contractTester.assertMethod(contract.getUserPosition(address), expected);
+      contractTester.setupMethodSpy('getUserNetPosition', expected, address);
+      await contractTester.assertMethod(contract.getUserNetPosition(address), expected);
     });
 
     it('has getUserAccountBalance', async () => {
