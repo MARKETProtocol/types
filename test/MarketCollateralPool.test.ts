@@ -108,4 +108,37 @@ describe('MarketCollateralPool', () => {
       await contractTester.assertTxMethod(contract.withdrawTokensTx(withdrawAmount), {});
     });
   });
+
+  describe('events', () => {
+    const watchFilter = {
+      fromBlock: '0',
+      toBlock: 'mockBlockForTesting'
+    };
+
+    it('should wait for UpdatedUserBalance event', async () => {
+      const user = '0x3847293';
+      const eventFilter = { user };
+      const eventLog = { event: 'UpdatedUserBalance' };
+
+      contractTester.setupEventSpy('UpdatedUserBalance', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.UpdatedUserBalanceEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for UpdatedPoolBalance event', async () => {
+      const user = '0x3847293';
+      const eventFilter = { user };
+      const eventLog = { event: 'UpdatedPoolBalance' };
+
+      contractTester.setupEventSpy('UpdatedPoolBalance', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.UpdatedPoolBalanceEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+  });
 });

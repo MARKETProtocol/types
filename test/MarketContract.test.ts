@@ -267,4 +267,107 @@ describe('MarketContract class', () => {
       );
     });
   });
+
+  describe('events', () => {
+    const watchFilter = {
+      fromBlock: '0',
+      toBlock: 'mockBlockForTesting'
+    };
+
+    it('should wait for UpdatedLastPrice event', async () => {
+      const eventFilter = {};
+      const eventLog = { event: 'UpdatedLastPrice' };
+
+      contractTester.setupEventSpy('UpdatedLastPrice', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.UpdatedLastPriceEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for ContractSettled event', async () => {
+      const eventFilter = {};
+      const eventLog = { event: 'ContractSettled' };
+
+      contractTester.setupEventSpy('ContractSettled', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.ContractSettledEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for UpdatedUserBalance event', async () => {
+      const eventFilter = { user: new BigNumber(1234) };
+      const eventLog = { event: 'UpdatedUserBalance' };
+
+      contractTester.setupEventSpy('UpdatedUserBalance', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.UpdatedUserBalanceEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for UpdatedPoolBalance event', async () => {
+      const eventFilter = {};
+      const eventLog = { event: 'UpdatedPoolBalance' };
+
+      contractTester.setupEventSpy('UpdatedPoolBalance', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.UpdatedPoolBalanceEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for Error event', async () => {
+      const eventFilter = { errorCode: 1 };
+      const eventLog = { event: 'Error' };
+
+      contractTester.setupEventSpy('Error', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.ErrorEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for OrderFilled event', async () => {
+      const eventFilter = { maker: 'someMaker' };
+      const eventLog = { event: 'OrderFilled' };
+
+      contractTester.setupEventSpy('OrderFilled', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.OrderFilledEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for OrderCancelled event', async () => {
+      const eventFilter = { maker: 'someMaker' };
+      const eventLog = { event: 'OrderCancelled' };
+
+      contractTester.setupEventSpy('OrderCancelled', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.OrderCancelledEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for CreatorTransferred event', async () => {
+      const eventFilter = { currentCreator: 'someMaker' };
+      const eventLog = { event: 'CreatorTransferred' };
+
+      contractTester.setupEventSpy('CreatorTransferred', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.CreatorTransferredEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+  });
 });

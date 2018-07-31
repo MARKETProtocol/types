@@ -145,21 +145,10 @@ describe('CollateralToken class', () => {
 
     it('should wait for Approval event', async () => {
       const spender = '0x3847293';
-      const value = 121;
       const eventFilter = { spender };
       const eventLog = { event: 'Approval' };
 
-      contractTester = new TestContract<CollateralToken>(
-        'CollateralToken',
-        MARKET_CONTRACT_ADDRESS
-      );
-
-      contract = await contractTester.createContract(CollateralToken.createAndValidate);
-
-      contractTester.setupTxMethodSpy('approveTx', {}, spender, value);
       contractTester.setupEventSpy('Approval', [eventFilter, watchFilter], eventLog);
-
-      await contractTester.assertTxMethod(contract.approveTx(spender, value), {});
 
       await contractTester.assertEvent(
         contract.ApprovalEvent(eventFilter).watchFirst(watchFilter),
@@ -169,21 +158,10 @@ describe('CollateralToken class', () => {
 
     it('should wait for Transfer event', async () => {
       const spender = '0x3847293';
-      const value = 121;
       const eventFilter = { from: spender };
       const eventLog = { event: 'Transfer' };
 
-      contractTester = new TestContract<CollateralToken>(
-        'CollateralToken',
-        MARKET_CONTRACT_ADDRESS
-      );
-
-      contract = await contractTester.createContract(CollateralToken.createAndValidate);
-
-      contractTester.setupTxMethodSpy('transferTx', {}, spender, value);
       contractTester.setupEventSpy('Transfer', [eventFilter, watchFilter], eventLog);
-
-      await contractTester.assertTxMethod(contract.transferTx(spender, value), {});
 
       await contractTester.assertEvent(
         contract.TransferEvent(eventFilter).watchFirst(watchFilter),
