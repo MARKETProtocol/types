@@ -76,4 +76,49 @@ describe('OraclizeQueryTest', () => {
       await contractTester.assertTxMethod(contract.__callbackTx(id, result), {});
     });
   });
+
+  describe('events', () => {
+    const watchFilter = {
+      fromBlock: '0',
+      toBlock: 'mockBlockForTesting'
+    };
+
+    it('should wait for QueryCompleted event', async () => {
+      const queryIDCompleted = '0x3847293';
+      const eventFilter = { queryIDCompleted };
+      const eventLog = { event: 'QueryCompleted' };
+
+      contractTester.setupEventSpy('QueryCompleted', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.QueryCompletedEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for QueryScheduled event', async () => {
+      const queryIDScheduled = '0x3847293';
+      const eventFilter = { queryIDScheduled };
+      const eventLog = { event: 'QueryScheduled' };
+
+      contractTester.setupEventSpy('QueryScheduled', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.QueryScheduledEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for QueryPrice event', async () => {
+      const eventFilter = {};
+      const eventLog = { event: 'QueryPrice' };
+
+      contractTester.setupEventSpy('QueryPrice', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.QueryPriceEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+  });
 });

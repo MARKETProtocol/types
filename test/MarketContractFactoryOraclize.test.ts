@@ -105,4 +105,37 @@ describe('MarketContractFactoryOraclize', () => {
       await contractTester.assertTxMethod(contract.setRegistryAddressTx(registryAddress), {});
     });
   });
+
+  describe('events', () => {
+    const watchFilter = {
+      fromBlock: '0',
+      toBlock: 'mockBlockForTesting'
+    };
+
+    it('should wait for MarketContractCreated event', async () => {
+      const creator = '0x3847293';
+      const eventFilter = { creator };
+      const eventLog = { event: 'MarketContractCreated' };
+
+      contractTester.setupEventSpy('MarketContractCreated', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.MarketContractCreatedEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for OwnershipTransferred event', async () => {
+      const previousOwner = '0x3847293';
+      const eventFilter = { previousOwner };
+      const eventLog = { event: 'OwnershipTransferred' };
+
+      contractTester.setupEventSpy('OwnershipTransferred', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.OwnershipTransferredEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+  });
 });

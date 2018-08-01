@@ -101,4 +101,80 @@ describe('MarketContractRegistry', () => {
       await contractTester.assertTxMethod(contract.removeFactoryAddressTx(factoryAddress), {});
     });
   });
+
+  describe('events', () => {
+    const watchFilter = {
+      fromBlock: '0',
+      toBlock: 'mockBlockForTesting'
+    };
+
+    it('should wait for AddressAddedToWhitelist event', async () => {
+      const contractAddress = '0x3847293';
+      const eventFilter = { contractAddress };
+      const eventLog = { event: 'AddressAddedToWhitelist' };
+
+      contractTester.setupEventSpy('AddressAddedToWhitelist', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.AddressAddedToWhitelistEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for AddressRemovedFromWhitelist event', async () => {
+      const contractAddress = '0x3847293';
+      const eventFilter = { contractAddress };
+      const eventLog = { event: 'AddressRemovedFromWhitelist' };
+
+      contractTester.setupEventSpy(
+        'AddressRemovedFromWhitelist',
+        [eventFilter, watchFilter],
+        eventLog
+      );
+
+      await contractTester.assertEvent(
+        contract.AddressRemovedFromWhitelistEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for FactoryAddressAdded event', async () => {
+      const factoryAddress = '0x3847293';
+      const eventFilter = { factoryAddress };
+      const eventLog = { event: 'FactoryAddressAdded' };
+
+      contractTester.setupEventSpy('FactoryAddressAdded', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.FactoryAddressAddedEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for FactoryAddressRemoved event', async () => {
+      const factoryAddress = '0x3847293';
+      const eventFilter = { factoryAddress };
+      const eventLog = { event: 'FactoryAddressRemoved' };
+
+      contractTester.setupEventSpy('FactoryAddressRemoved', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.FactoryAddressRemovedEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for OwnershipTransferred event', async () => {
+      const previousOwner = '0x3847293';
+      const eventFilter = { previousOwner };
+      const eventLog = { event: 'OwnershipTransferred' };
+
+      contractTester.setupEventSpy('OwnershipTransferred', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.OwnershipTransferredEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+  });
 });

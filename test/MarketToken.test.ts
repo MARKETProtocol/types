@@ -311,4 +311,93 @@ describe('MarketToken class', () => {
 
     await contractTester.assertMethod(contract.balanceOf(owner), expected);
   });
+
+  describe('events', () => {
+    const watchFilter = {
+      fromBlock: '0',
+      toBlock: 'mockBlockForTesting'
+    };
+
+    it('should wait for UpdatedUserLockedBalance event', async () => {
+      const contractAddress = '0x3847293';
+      const eventFilter = { contractAddress };
+      const eventLog = { event: 'UpdatedUserLockedBalance' };
+
+      contractTester.setupEventSpy(
+        'UpdatedUserLockedBalance',
+        [eventFilter, watchFilter],
+        eventLog
+      );
+
+      await contractTester.assertEvent(
+        contract.UpdatedUserLockedBalanceEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for Upgraded event', async () => {
+      const from = '0x3847293';
+      const eventFilter = { from };
+      const eventLog = { event: 'Upgraded' };
+
+      contractTester.setupEventSpy('Upgraded', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.UpgradedEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for Burn event', async () => {
+      const burner = '0x3847293';
+      const eventFilter = { burner };
+      const eventLog = { event: 'Burn' };
+
+      contractTester.setupEventSpy('Burn', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.BurnEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for Approval event', async () => {
+      const owner = '0x3847293';
+      const eventFilter = { owner };
+      const eventLog = { event: 'Approval' };
+
+      contractTester.setupEventSpy('Approval', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.ApprovalEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for Transfer event', async () => {
+      const from = '0x3847293';
+      const eventFilter = { from };
+      const eventLog = { event: 'Transfer' };
+
+      contractTester.setupEventSpy('Transfer', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.TransferEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for OwnershipTransferred event', async () => {
+      const previousOwner = '0x3847293';
+      const eventFilter = { previousOwner };
+      const eventLog = { event: 'OwnershipTransferred' };
+
+      contractTester.setupEventSpy('OwnershipTransferred', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.OwnershipTransferredEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+  });
 });

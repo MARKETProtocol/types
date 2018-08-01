@@ -83,4 +83,37 @@ describe('ERC20 class', () => {
       await contractTester.assertTxMethod(contract.approveTx(spender, value), {});
     });
   });
+
+  describe('events', () => {
+    const watchFilter = {
+      fromBlock: '0',
+      toBlock: 'mockBlockForTesting'
+    };
+
+    it('should wait for Approval event', async () => {
+      const spender = '0x3847293';
+      const eventFilter = { spender };
+      const eventLog = { event: 'Approval' };
+
+      contractTester.setupEventSpy('Approval', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.ApprovalEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for Transfer event', async () => {
+      const spender = '0x3847293';
+      const eventFilter = { from: spender };
+      const eventLog = { event: 'Transfer' };
+
+      contractTester.setupEventSpy('Transfer', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.TransferEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+  });
 });
