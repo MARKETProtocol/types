@@ -1,5 +1,5 @@
 export interface Artifact {
-  contract_name: string;
+  contractName: string;
   abi: object;
   networks: {
     [networkId: number]: {
