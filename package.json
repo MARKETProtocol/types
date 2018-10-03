@@ -13,9 +13,10 @@
     "decentralized exchange",
     "exchange"
   ],
-  "types": "types/index.d.ts",
+  "main": "dist/lib/index.js",
+  "types": "dist/types/index.d.ts",
   "files": [
-    "types"
+    "dist"
   ],
   "author": "Robert Jordan <robert@marketprotocol.io>",
   "repository": {
@@ -36,6 +37,7 @@
   "scripts": {
     "lint": "tslint -t codeFrame 'types/**/*.ts' 'test/**/*.ts'",
     "lint:fix": "tslint --fix -t codeFrame 'types/**/*.ts' 'test/**/*.ts'",
+    "prebuild": "rimraf dist",
     "build": "tsc --module commonjs",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -79,8 +81,7 @@
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
-      "/test/",
-      "/types/typechain-runtime.ts"
+      "/test/"
     ],
     "coverageThreshold": {
       "global": {
