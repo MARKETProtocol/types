@@ -19,7 +19,7 @@ export class MarketCollateralPool extends TypeChainContract {
       {
         constant: true,
         inputs: [],
-        name: 'MKT_TOKEN_ADDRESS',
+        name: 'marketTradingHub',
         outputs: [{ name: '', type: 'address' }],
         payable: false,
         stateMutability: 'view',
@@ -27,18 +27,27 @@ export class MarketCollateralPool extends TypeChainContract {
       },
       {
         constant: true,
-        inputs: [],
-        name: 'linkedAddress',
-        outputs: [{ name: '', type: 'address' }],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function'
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: 'collateralPoolBalance',
+        inputs: [{ name: '', type: 'address' }, { name: '', type: 'address' }],
+        name: 'tokenAddressToAccountBalance',
         outputs: [{ name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+      },
+      {
+        constant: true,
+        inputs: [{ name: '', type: 'address' }, { name: '', type: 'address' }],
+        name: 'tokenAddressToBalanceLockTime',
+        outputs: [{ name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+      },
+      {
+        constant: true,
+        inputs: [],
+        name: 'owner',
+        outputs: [{ name: '', type: 'address' }],
         payable: false,
         stateMutability: 'view',
         type: 'function'
@@ -46,21 +55,26 @@ export class MarketCollateralPool extends TypeChainContract {
       {
         constant: true,
         inputs: [{ name: '', type: 'address' }],
-        name: 'userAddressToAccountBalance',
+        name: 'contractAddressToCollateralPoolBalance',
         outputs: [{ name: '', type: 'uint256' }],
         payable: false,
         stateMutability: 'view',
         type: 'function'
       },
       {
-        inputs: [{ name: 'marketContractAddress', type: 'address' }],
+        constant: false,
+        inputs: [{ name: 'newOwner', type: 'address' }],
+        name: 'transferOwnership',
+        outputs: [],
         payable: false,
         stateMutability: 'nonpayable',
-        type: 'constructor'
+        type: 'function'
       },
+      { inputs: [], payable: false, stateMutability: 'nonpayable', type: 'constructor' },
       {
         anonymous: false,
         inputs: [
+          { indexed: true, name: 'collateralTokenAddress', type: 'address' },
           { indexed: true, name: 'user', type: 'address' },
           { indexed: false, name: 'balance', type: 'uint256' }
         ],
@@ -69,13 +83,19 @@ export class MarketCollateralPool extends TypeChainContract {
       },
       {
         anonymous: false,
-        inputs: [{ indexed: false, name: 'balance', type: 'uint256' }],
-        name: 'UpdatedPoolBalance',
+        inputs: [
+          { indexed: true, name: 'previousOwner', type: 'address' },
+          { indexed: true, name: 'newOwner', type: 'address' }
+        ],
+        name: 'OwnershipTransferred',
         type: 'event'
       },
       {
         constant: true,
-        inputs: [{ name: 'userAddress', type: 'address' }],
+        inputs: [
+          { name: 'marketContractAddress', type: 'address' },
+          { name: 'userAddress', type: 'address' }
+        ],
         name: 'getUserNetPosition',
         outputs: [{ name: '', type: 'int256' }],
         payable: false,
@@ -84,7 +104,10 @@ export class MarketCollateralPool extends TypeChainContract {
       },
       {
         constant: true,
-        inputs: [{ name: 'userAddress', type: 'address' }],
+        inputs: [
+          { name: 'marketContractAddress', type: 'address' },
+          { name: 'userAddress', type: 'address' }
+        ],
         name: 'getUserPositionCount',
         outputs: [{ name: '', type: 'uint256' }],
         payable: false,
@@ -93,7 +116,11 @@ export class MarketCollateralPool extends TypeChainContract {
       },
       {
         constant: true,
-        inputs: [{ name: 'userAddress', type: 'address' }, { name: 'index', type: 'uint256' }],
+        inputs: [
+          { name: 'marketContractAddress', type: 'address' },
+          { name: 'userAddress', type: 'address' },
+          { name: 'index', type: 'uint256' }
+        ],
         name: 'getUserPosition',
         outputs: [{ name: '', type: 'uint256' }, { name: '', type: 'int256' }],
         payable: false,
@@ -102,8 +129,11 @@ export class MarketCollateralPool extends TypeChainContract {
       },
       {
         constant: true,
-        inputs: [{ name: 'userAddress', type: 'address' }],
-        name: 'getUserAccountBalance',
+        inputs: [
+          { name: 'collateralTokenAddress', type: 'address' },
+          { name: 'userAddress', type: 'address' }
+        ],
+        name: 'getUserUnallocatedBalance',
         outputs: [{ name: '', type: 'uint256' }],
         payable: false,
         stateMutability: 'view',
@@ -111,7 +141,10 @@ export class MarketCollateralPool extends TypeChainContract {
       },
       {
         constant: false,
-        inputs: [{ name: 'depositAmount', type: 'uint256' }],
+        inputs: [
+          { name: 'collateralTokenAddress', type: 'address' },
+          { name: 'depositAmount', type: 'uint256' }
+        ],
         name: 'depositTokensForTrading',
         outputs: [],
         payable: false,
@@ -120,7 +153,7 @@ export class MarketCollateralPool extends TypeChainContract {
       },
       {
         constant: false,
-        inputs: [],
+        inputs: [{ name: 'marketContractAddress', type: 'address' }],
         name: 'settleAndClose',
         outputs: [],
         payable: false,
@@ -130,6 +163,7 @@ export class MarketCollateralPool extends TypeChainContract {
       {
         constant: false,
         inputs: [
+          { name: 'marketContractAddress', type: 'address' },
           { name: 'maker', type: 'address' },
           { name: 'taker', type: 'address' },
           { name: 'qty', type: 'int256' },
@@ -143,7 +177,19 @@ export class MarketCollateralPool extends TypeChainContract {
       },
       {
         constant: false,
-        inputs: [{ name: 'withdrawAmount', type: 'uint256' }],
+        inputs: [{ name: 'marketTradingHubAddress', type: 'address' }],
+        name: 'setMarketTradingHubAddress',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
+      },
+      {
+        constant: false,
+        inputs: [
+          { name: 'collateralTokenAddress', type: 'address' },
+          { name: 'withdrawAmount', type: 'uint256' }
+        ],
         name: 'withdrawTokens',
         outputs: [],
         payable: false,
@@ -169,87 +215,169 @@ export class MarketCollateralPool extends TypeChainContract {
     return contract;
   }
 
-  public get MKT_TOKEN_ADDRESS(): Promise<string> {
-    return promisify(this.rawWeb3Contract.MKT_TOKEN_ADDRESS, []);
+  public get marketTradingHub(): Promise<string> {
+    return promisify(this.rawWeb3Contract.marketTradingHub, []);
   }
-  public get linkedAddress(): Promise<string> {
-    return promisify(this.rawWeb3Contract.linkedAddress, []);
+  public get owner(): Promise<string> {
+    return promisify(this.rawWeb3Contract.owner, []);
   }
-  public get collateralPoolBalance(): Promise<BigNumber> {
-    return promisify(this.rawWeb3Contract.collateralPoolBalance, []);
+  public tokenAddressToAccountBalance(
+    arg0: BigNumber | string,
+    arg1: BigNumber | string
+  ): Promise<BigNumber> {
+    return promisify(this.rawWeb3Contract.tokenAddressToAccountBalance, [
+      arg0.toString(),
+      arg1.toString()
+    ]);
   }
-  public userAddressToAccountBalance(arg0: BigNumber | string): Promise<BigNumber> {
-    return promisify(this.rawWeb3Contract.userAddressToAccountBalance, [arg0.toString()]);
+  public tokenAddressToBalanceLockTime(
+    arg0: BigNumber | string,
+    arg1: BigNumber | string
+  ): Promise<BigNumber> {
+    return promisify(this.rawWeb3Contract.tokenAddressToBalanceLockTime, [
+      arg0.toString(),
+      arg1.toString()
+    ]);
   }
-  public getUserNetPosition(userAddress: BigNumber | string): Promise<BigNumber> {
-    return promisify(this.rawWeb3Contract.getUserNetPosition, [userAddress.toString()]);
+  public contractAddressToCollateralPoolBalance(arg0: BigNumber | string): Promise<BigNumber> {
+    return promisify(this.rawWeb3Contract.contractAddressToCollateralPoolBalance, [
+      arg0.toString()
+    ]);
   }
-  public getUserPositionCount(userAddress: BigNumber | string): Promise<BigNumber> {
-    return promisify(this.rawWeb3Contract.getUserPositionCount, [userAddress.toString()]);
+  public getUserNetPosition(
+    marketContractAddress: BigNumber | string,
+    userAddress: BigNumber | string
+  ): Promise<BigNumber> {
+    return promisify(this.rawWeb3Contract.getUserNetPosition, [
+      marketContractAddress.toString(),
+      userAddress.toString()
+    ]);
+  }
+  public getUserPositionCount(
+    marketContractAddress: BigNumber | string,
+    userAddress: BigNumber | string
+  ): Promise<BigNumber> {
+    return promisify(this.rawWeb3Contract.getUserPositionCount, [
+      marketContractAddress.toString(),
+      userAddress.toString()
+    ]);
   }
   public getUserPosition(
+    marketContractAddress: BigNumber | string,
     userAddress: BigNumber | string,
     index: BigNumber | number
   ): Promise<[BigNumber, BigNumber]> {
     return promisify(this.rawWeb3Contract.getUserPosition, [
+      marketContractAddress.toString(),
       userAddress.toString(),
       index.toString()
     ]);
   }
-  public getUserAccountBalance(userAddress: BigNumber | string): Promise<BigNumber> {
-    return promisify(this.rawWeb3Contract.getUserAccountBalance, [userAddress.toString()]);
+  public getUserUnallocatedBalance(
+    collateralTokenAddress: BigNumber | string,
+    userAddress: BigNumber | string
+  ): Promise<BigNumber> {
+    return promisify(this.rawWeb3Contract.getUserUnallocatedBalance, [
+      collateralTokenAddress.toString(),
+      userAddress.toString()
+    ]);
   }
 
+  public transferOwnershipTx(newOwner: BigNumber | string): DeferredTransactionWrapper<ITxParams> {
+    return new DeferredTransactionWrapper<ITxParams>(this, 'transferOwnership', [
+      newOwner.toString()
+    ]);
+  }
   public depositTokensForTradingTx(
+    collateralTokenAddress: BigNumber | string,
     depositAmount: BigNumber | number
   ): DeferredTransactionWrapper<ITxParams> {
     return new DeferredTransactionWrapper<ITxParams>(this, 'depositTokensForTrading', [
+      collateralTokenAddress.toString(),
       depositAmount.toString()
     ]);
   }
-  public settleAndCloseTx(): DeferredTransactionWrapper<ITxParams> {
-    return new DeferredTransactionWrapper<ITxParams>(this, 'settleAndClose', []);
+  public settleAndCloseTx(
+    marketContractAddress: BigNumber | string
+  ): DeferredTransactionWrapper<ITxParams> {
+    return new DeferredTransactionWrapper<ITxParams>(this, 'settleAndClose', [
+      marketContractAddress.toString()
+    ]);
   }
   public updatePositionsTx(
+    marketContractAddress: BigNumber | string,
     maker: BigNumber | string,
     taker: BigNumber | string,
     qty: BigNumber | number,
     price: BigNumber | number
   ): DeferredTransactionWrapper<ITxParams> {
     return new DeferredTransactionWrapper<ITxParams>(this, 'updatePositions', [
+      marketContractAddress.toString(),
       maker.toString(),
       taker.toString(),
       qty.toString(),
       price.toString()
     ]);
   }
+  public setMarketTradingHubAddressTx(
+    marketTradingHubAddress: BigNumber | string
+  ): DeferredTransactionWrapper<ITxParams> {
+    return new DeferredTransactionWrapper<ITxParams>(this, 'setMarketTradingHubAddress', [
+      marketTradingHubAddress.toString()
+    ]);
+  }
   public withdrawTokensTx(
+    collateralTokenAddress: BigNumber | string,
     withdrawAmount: BigNumber | number
   ): DeferredTransactionWrapper<ITxParams> {
     return new DeferredTransactionWrapper<ITxParams>(this, 'withdrawTokens', [
+      collateralTokenAddress.toString(),
       withdrawAmount.toString()
     ]);
   }
 
   public UpdatedUserBalanceEvent(eventFilter: {
+    collateralTokenAddress?: BigNumber | string | Array<BigNumber | string>;
     user?: BigNumber | string | Array<BigNumber | string>;
   }): DeferredEventWrapper<
-    { user: BigNumber | string; balance: BigNumber | number },
-    { user?: BigNumber | string | Array<BigNumber | string> }
+    {
+      collateralTokenAddress: BigNumber | string;
+      user: BigNumber | string;
+      balance: BigNumber | number;
+    },
+    {
+      collateralTokenAddress?: BigNumber | string | Array<BigNumber | string>;
+      user?: BigNumber | string | Array<BigNumber | string>;
+    }
   > {
     return new DeferredEventWrapper<
-      { user: BigNumber | string; balance: BigNumber | number },
-      { user?: BigNumber | string | Array<BigNumber | string> }
+      {
+        collateralTokenAddress: BigNumber | string;
+        user: BigNumber | string;
+        balance: BigNumber | number;
+      },
+      {
+        collateralTokenAddress?: BigNumber | string | Array<BigNumber | string>;
+        user?: BigNumber | string | Array<BigNumber | string>;
+      }
     >(this, 'UpdatedUserBalance', eventFilter);
   }
-  public UpdatedPoolBalanceEvent(eventFilter: {}): DeferredEventWrapper<
-    { balance: BigNumber | number },
-    {}
+  public OwnershipTransferredEvent(eventFilter: {
+    previousOwner?: BigNumber | string | Array<BigNumber | string>;
+    newOwner?: BigNumber | string | Array<BigNumber | string>;
+  }): DeferredEventWrapper<
+    { previousOwner: BigNumber | string; newOwner: BigNumber | string },
+    {
+      previousOwner?: BigNumber | string | Array<BigNumber | string>;
+      newOwner?: BigNumber | string | Array<BigNumber | string>;
+    }
   > {
-    return new DeferredEventWrapper<{ balance: BigNumber | number }, {}>(
-      this,
-      'UpdatedPoolBalance',
-      eventFilter
-    );
+    return new DeferredEventWrapper<
+      { previousOwner: BigNumber | string; newOwner: BigNumber | string },
+      {
+        previousOwner?: BigNumber | string | Array<BigNumber | string>;
+        newOwner?: BigNumber | string | Array<BigNumber | string>;
+      }
+    >(this, 'OwnershipTransferred', eventFilter);
   }
 }
