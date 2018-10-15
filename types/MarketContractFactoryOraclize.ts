@@ -19,15 +19,6 @@ export class MarketContractFactoryOraclize extends TypeChainContract {
       {
         constant: true,
         inputs: [],
-        name: 'collateralPoolFactoryAddress',
-        outputs: [{ name: '', type: 'address' }],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function'
-      },
-      {
-        constant: true,
-        inputs: [],
         name: 'MKT_TOKEN_ADDRESS',
         outputs: [{ name: '', type: 'address' }],
         payable: false,
@@ -53,6 +44,15 @@ export class MarketContractFactoryOraclize extends TypeChainContract {
         type: 'function'
       },
       {
+        constant: true,
+        inputs: [],
+        name: 'MKT_TOKEN',
+        outputs: [{ name: '', type: 'address' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+      },
+      {
         constant: false,
         inputs: [{ name: 'newOwner', type: 'address' }],
         name: 'transferOwnership',
@@ -64,8 +64,7 @@ export class MarketContractFactoryOraclize extends TypeChainContract {
       {
         inputs: [
           { name: 'registryAddress', type: 'address' },
-          { name: 'mktTokenAddress', type: 'address' },
-          { name: 'marketCollateralPoolFactoryAddress', type: 'address' }
+          { name: 'mktTokenAddress', type: 'address' }
         ],
         payable: false,
         stateMutability: 'nonpayable',
@@ -132,9 +131,6 @@ export class MarketContractFactoryOraclize extends TypeChainContract {
     return contract;
   }
 
-  public get collateralPoolFactoryAddress(): Promise<string> {
-    return promisify(this.rawWeb3Contract.collateralPoolFactoryAddress, []);
-  }
   public get MKT_TOKEN_ADDRESS(): Promise<string> {
     return promisify(this.rawWeb3Contract.MKT_TOKEN_ADDRESS, []);
   }
@@ -143,6 +139,9 @@ export class MarketContractFactoryOraclize extends TypeChainContract {
   }
   public get marketContractRegistry(): Promise<string> {
     return promisify(this.rawWeb3Contract.marketContractRegistry, []);
+  }
+  public get MKT_TOKEN(): Promise<string> {
+    return promisify(this.rawWeb3Contract.MKT_TOKEN, []);
   }
 
   public transferOwnershipTx(newOwner: BigNumber | string): DeferredTransactionWrapper<ITxParams> {

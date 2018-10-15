@@ -18,6 +18,33 @@ export class MarketContractRegistry extends TypeChainContract {
     const abi = [
       {
         constant: true,
+        inputs: [{ name: '', type: 'uint256' }],
+        name: 'addressWhiteList',
+        outputs: [{ name: '', type: 'address' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+      },
+      {
+        constant: true,
+        inputs: [{ name: '', type: 'address' }],
+        name: 'factoryAddressWhiteList',
+        outputs: [{ name: '', type: 'bool' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+      },
+      {
+        constant: true,
+        inputs: [{ name: '', type: 'address' }],
+        name: 'isWhiteListed',
+        outputs: [{ name: '', type: 'bool' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+      },
+      {
+        constant: true,
         inputs: [],
         name: 'owner',
         outputs: [{ name: '', type: 'address' }],
@@ -148,6 +175,15 @@ export class MarketContractRegistry extends TypeChainContract {
   }
   public get getAddressWhiteList(): Promise<string[]> {
     return promisify(this.rawWeb3Contract.getAddressWhiteList, []);
+  }
+  public addressWhiteList(arg0: BigNumber | number): Promise<string> {
+    return promisify(this.rawWeb3Contract.addressWhiteList, [arg0.toString()]);
+  }
+  public factoryAddressWhiteList(arg0: BigNumber | string): Promise<boolean> {
+    return promisify(this.rawWeb3Contract.factoryAddressWhiteList, [arg0.toString()]);
+  }
+  public isWhiteListed(arg0: BigNumber | string): Promise<boolean> {
+    return promisify(this.rawWeb3Contract.isWhiteListed, [arg0.toString()]);
   }
   public isAddressWhiteListed(contractAddress: BigNumber | string): Promise<boolean> {
     return promisify(this.rawWeb3Contract.isAddressWhiteListed, [contractAddress.toString()]);

@@ -102,6 +102,24 @@ export class TestContract<T extends TypeChainContract> {
     };
   }
 
+  public setupEventSpy(eventName: string, expectedArgs: any[], expected?: any, error?: any) {
+    this.mockWeb3Contract[eventName] = (...args) => {
+      validateExpected(args, expectedArgs);
+      return {
+        watch: jasmine.createSpy().and.callFake(cb => {
+          cb(error, expected);
+        }),
+        stopWatching: this.createMethodSpy([])
+      };
+    };
+  }
+
+  public async assertEvent<N>(method: Promise<N>, expected?: any) {
+    const result = await method;
+
+    expect(result).toEqual(expected);
+  }
+
   /**
    * Tests the specified method and ensures the method returns the correct value
    *

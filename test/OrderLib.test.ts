@@ -29,7 +29,7 @@ describe('OrderLib', () => {
     it('has createOrderHash', async () => {
       const contractAddress = '0xa5b9d60f32436310afebcfda832817a68921beb7';
       // makerAddress, takerAddress, feeRecipientAddress
-      const orderAddresses = ['0x74892', '0x23f45', '0x768fa'];
+      const orderAddresses = [contractAddress, '0x74892', '0x23f45', '0x768fa'];
       // makerFee, takerFree, price, expirationTimeStamp, salt
       const unsignedOrderValues = [
         new BigNumber(10000),
@@ -44,13 +44,12 @@ describe('OrderLib', () => {
       contractTester.setupMethodSpy(
         'createOrderHash',
         expected,
-        contractAddress,
         orderAddresses,
         unsignedOrderValues,
         orderQty
       );
       await contractTester.assertMethod(
-        contract.createOrderHash(contractAddress, orderAddresses, unsignedOrderValues, orderQty),
+        contract.createOrderHash(orderAddresses, unsignedOrderValues, orderQty),
         expected
       );
     });

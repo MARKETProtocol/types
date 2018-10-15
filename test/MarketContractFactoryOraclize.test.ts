@@ -33,12 +33,12 @@ describe('MarketContractFactoryOraclize', () => {
   });
 
   describe('variables', () => {
-    it('has collateralPoolFactoryAddress', async () => {
-      const expected = '0x11f68c2a0df5b85781bb0f617d502c3a7d354d31';
-
-      contractTester.setupGetterSpy('collateralPoolFactoryAddress', expected);
-      await contractTester.assertMethod(contract.collateralPoolFactoryAddress, expected);
-    });
+    // it('has collateralPoolFactoryAddress', async () => {
+    //   const expected = '0x11f68c2a0df5b85781bb0f617d502c3a7d354d31';
+    //
+    //   contractTester.setupGetterSpy('collateralPoolFactoryAddress', expected);
+    //   await contractTester.assertMethod(contract.collateralPoolFactoryAddress, expected);
+    // });
 
     it('has MKT_TOKEN_ADDRESS', async () => {
       const expected = '0x11f68c2a0df5b81241bb0f617d502c3a7d354d31';
@@ -103,6 +103,39 @@ describe('MarketContractFactoryOraclize', () => {
 
       contractTester.setupTxMethodSpy('setRegistryAddressTx', {}, registryAddress);
       await contractTester.assertTxMethod(contract.setRegistryAddressTx(registryAddress), {});
+    });
+  });
+
+  describe('events', () => {
+    const watchFilter = {
+      fromBlock: '0',
+      toBlock: 'mockBlockForTesting'
+    };
+
+    it('should wait for MarketContractCreated event', async () => {
+      const creator = '0x3847293';
+      const eventFilter = { creator };
+      const eventLog = { event: 'MarketContractCreated' };
+
+      contractTester.setupEventSpy('MarketContractCreated', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.MarketContractCreatedEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
+    });
+
+    it('should wait for OwnershipTransferred event', async () => {
+      const previousOwner = '0x3847293';
+      const eventFilter = { previousOwner };
+      const eventLog = { event: 'OwnershipTransferred' };
+
+      contractTester.setupEventSpy('OwnershipTransferred', [eventFilter, watchFilter], eventLog);
+
+      await contractTester.assertEvent(
+        contract.OwnershipTransferredEvent(eventFilter).watchFirst(watchFilter),
+        eventLog
+      );
     });
   });
 });

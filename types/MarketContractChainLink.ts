@@ -11,7 +11,7 @@ import {
   DeferredEventWrapper
 } from './typechain-runtime';
 
-export class MarketContractOraclize extends TypeChainContract {
+export class MarketContractChainLink extends TypeChainContract {
   public readonly rawWeb3Contract: any;
 
   public constructor(web3: any, address: string | BigNumber) {
@@ -30,15 +30,6 @@ export class MarketContractOraclize extends TypeChainContract {
         inputs: [],
         name: 'lastPrice',
         outputs: [{ name: '', type: 'uint256' }],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function'
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: 'lastPriceQueryResult',
-        outputs: [{ name: '', type: 'string' }],
         payable: false,
         stateMutability: 'view',
         type: 'function'
@@ -73,25 +64,7 @@ export class MarketContractOraclize extends TypeChainContract {
       {
         constant: true,
         inputs: [],
-        name: 'QUERY_CALLBACK_GAS',
-        outputs: [{ name: '', type: 'uint256' }],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function'
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: 'ORACLE_DATA_SOURCE',
-        outputs: [{ name: '', type: 'string' }],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function'
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: 'ORACLE_QUERY',
+        name: 'ORACLE_QUERY_URL',
         outputs: [{ name: '', type: 'string' }],
         payable: false,
         stateMutability: 'view',
@@ -102,6 +75,15 @@ export class MarketContractOraclize extends TypeChainContract {
         inputs: [],
         name: 'CONTRACT_NAME',
         outputs: [{ name: '', type: 'string' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+      },
+      {
+        constant: true,
+        inputs: [],
+        name: 'ORACLE_HUB_ADDRESS',
+        outputs: [{ name: '', type: 'address' }],
         payable: false,
         stateMutability: 'view',
         type: 'function'
@@ -145,6 +127,15 @@ export class MarketContractOraclize extends TypeChainContract {
       {
         constant: true,
         inputs: [],
+        name: 'ORACLE_QUERY_PATH',
+        outputs: [{ name: '', type: 'string' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+      },
+      {
+        constant: true,
+        inputs: [],
         name: 'settlementPrice',
         outputs: [{ name: '', type: 'uint256' }],
         payable: false,
@@ -164,9 +155,10 @@ export class MarketContractOraclize extends TypeChainContract {
         inputs: [
           { name: 'contractName', type: 'string' },
           { name: 'baseAddresses', type: 'address[2]' },
+          { name: 'oracleHubAddress', type: 'address' },
           { name: 'contractSpecs', type: 'uint256[5]' },
-          { name: 'oracleDataSource', type: 'string' },
-          { name: 'oracleQuery', type: 'string' }
+          { name: 'oracleQueryURL', type: 'string' },
+          { name: 'oracleQueryPath', type: 'string' }
         ],
         payable: false,
         stateMutability: 'nonpayable',
@@ -195,30 +187,8 @@ export class MarketContractOraclize extends TypeChainContract {
       },
       {
         constant: false,
-        inputs: [],
-        name: 'requestEarlySettlement',
-        outputs: [],
-        payable: true,
-        stateMutability: 'payable',
-        type: 'function'
-      },
-      {
-        constant: false,
-        inputs: [{ name: 'myid', type: 'bytes32' }, { name: 'result', type: 'string' }],
-        name: '__callback',
-        outputs: [],
-        payable: false,
-        stateMutability: 'nonpayable',
-        type: 'function'
-      },
-      {
-        constant: false,
-        inputs: [
-          { name: 'queryID', type: 'bytes32' },
-          { name: 'result', type: 'string' },
-          { name: 'proof', type: 'bytes' }
-        ],
-        name: '__callback',
+        inputs: [{ name: 'price', type: 'uint256' }],
+        name: 'oracleCallBack',
         outputs: [],
         payable: false,
         stateMutability: 'nonpayable',
@@ -231,8 +201,8 @@ export class MarketContractOraclize extends TypeChainContract {
   static async createAndValidate(
     web3: any,
     address: string | BigNumber
-  ): Promise<MarketContractOraclize> {
-    const contract = new MarketContractOraclize(web3, address);
+  ): Promise<MarketContractChainLink> {
+    const contract = new MarketContractChainLink(web3, address);
     const code = await promisify(web3.eth.getCode, [address]);
 
     // in case of missing smartcontract, code can be equal to "0x0" or "0x" depending on exact web3 implementation
@@ -249,9 +219,6 @@ export class MarketContractOraclize extends TypeChainContract {
   public get lastPrice(): Promise<BigNumber> {
     return promisify(this.rawWeb3Contract.lastPrice, []);
   }
-  public get lastPriceQueryResult(): Promise<string> {
-    return promisify(this.rawWeb3Contract.lastPriceQueryResult, []);
-  }
   public get PRICE_DECIMAL_PLACES(): Promise<BigNumber> {
     return promisify(this.rawWeb3Contract.PRICE_DECIMAL_PLACES, []);
   }
@@ -261,17 +228,14 @@ export class MarketContractOraclize extends TypeChainContract {
   public get isSettled(): Promise<boolean> {
     return promisify(this.rawWeb3Contract.isSettled, []);
   }
-  public get QUERY_CALLBACK_GAS(): Promise<BigNumber> {
-    return promisify(this.rawWeb3Contract.QUERY_CALLBACK_GAS, []);
-  }
-  public get ORACLE_DATA_SOURCE(): Promise<string> {
-    return promisify(this.rawWeb3Contract.ORACLE_DATA_SOURCE, []);
-  }
-  public get ORACLE_QUERY(): Promise<string> {
-    return promisify(this.rawWeb3Contract.ORACLE_QUERY, []);
+  public get ORACLE_QUERY_URL(): Promise<string> {
+    return promisify(this.rawWeb3Contract.ORACLE_QUERY_URL, []);
   }
   public get CONTRACT_NAME(): Promise<string> {
     return promisify(this.rawWeb3Contract.CONTRACT_NAME, []);
+  }
+  public get ORACLE_HUB_ADDRESS(): Promise<string> {
+    return promisify(this.rawWeb3Contract.ORACLE_HUB_ADDRESS, []);
   }
   public get PRICE_CAP(): Promise<BigNumber> {
     return promisify(this.rawWeb3Contract.PRICE_CAP, []);
@@ -285,6 +249,9 @@ export class MarketContractOraclize extends TypeChainContract {
   public get QTY_MULTIPLIER(): Promise<BigNumber> {
     return promisify(this.rawWeb3Contract.QTY_MULTIPLIER, []);
   }
+  public get ORACLE_QUERY_PATH(): Promise<string> {
+    return promisify(this.rawWeb3Contract.ORACLE_QUERY_PATH, []);
+  }
   public get settlementPrice(): Promise<BigNumber> {
     return promisify(this.rawWeb3Contract.settlementPrice, []);
   }
@@ -294,14 +261,8 @@ export class MarketContractOraclize extends TypeChainContract {
       newCreator.toString()
     ]);
   }
-  public requestEarlySettlementTx(): DeferredTransactionWrapper<IPayableTxParams> {
-    return new DeferredTransactionWrapper<IPayableTxParams>(this, 'requestEarlySettlement', []);
-  }
-  public __callbackTx(myid: string, result: string): DeferredTransactionWrapper<ITxParams> {
-    return new DeferredTransactionWrapper<ITxParams>(this, '__callback', [
-      myid.toString(),
-      result.toString()
-    ]);
+  public oracleCallBackTx(price: BigNumber | number): DeferredTransactionWrapper<ITxParams> {
+    return new DeferredTransactionWrapper<ITxParams>(this, 'oracleCallBack', [price.toString()]);
   }
 
   public UpdatedLastPriceEvent(eventFilter: {}): DeferredEventWrapper<

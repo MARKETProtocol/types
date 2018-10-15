@@ -64,35 +64,8 @@ export class MarketContract extends TypeChainContract {
       {
         constant: true,
         inputs: [],
-        name: 'isCollateralPoolContractLinked',
-        outputs: [{ name: '', type: 'bool' }],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function'
-      },
-      {
-        constant: true,
-        inputs: [],
         name: 'CONTRACT_NAME',
         outputs: [{ name: '', type: 'string' }],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function'
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: 'MKT_TOKEN_ADDRESS',
-        outputs: [{ name: '', type: 'address' }],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function'
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: 'MARKET_COLLATERAL_POOL_ADDRESS',
-        outputs: [{ name: '', type: 'address' }],
         payable: false,
         stateMutability: 'view',
         type: 'function'
@@ -136,15 +109,6 @@ export class MarketContract extends TypeChainContract {
       {
         constant: true,
         inputs: [],
-        name: 'COLLATERAL_POOL_FACTORY_ADDRESS',
-        outputs: [{ name: '', type: 'address' }],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function'
-      },
-      {
-        constant: true,
-        inputs: [],
         name: 'settlementPrice',
         outputs: [{ name: '', type: 'uint256' }],
         payable: false,
@@ -163,10 +127,7 @@ export class MarketContract extends TypeChainContract {
       {
         inputs: [
           { name: 'contractName', type: 'string' },
-          { name: 'creatorAddress', type: 'address' },
-          { name: 'marketTokenAddress', type: 'address' },
-          { name: 'collateralTokenAddress', type: 'address' },
-          { name: 'collateralPoolFactoryAddress', type: 'address' },
+          { name: 'baseAddresses', type: 'address[2]' },
           { name: 'contractSpecs', type: 'uint256[5]' }
         ],
         payable: false,
@@ -175,7 +136,7 @@ export class MarketContract extends TypeChainContract {
       },
       {
         anonymous: false,
-        inputs: [{ indexed: false, name: 'price', type: 'string' }],
+        inputs: [{ indexed: false, name: 'price', type: 'uint256' }],
         name: 'UpdatedLastPrice',
         type: 'event'
       },
@@ -188,119 +149,11 @@ export class MarketContract extends TypeChainContract {
       {
         anonymous: false,
         inputs: [
-          { indexed: true, name: 'user', type: 'address' },
-          { indexed: false, name: 'balance', type: 'uint256' }
-        ],
-        name: 'UpdatedUserBalance',
-        type: 'event'
-      },
-      {
-        anonymous: false,
-        inputs: [{ indexed: false, name: 'balance', type: 'uint256' }],
-        name: 'UpdatedPoolBalance',
-        type: 'event'
-      },
-      {
-        anonymous: false,
-        inputs: [
-          { indexed: true, name: 'errorCode', type: 'uint8' },
-          { indexed: true, name: 'orderHash', type: 'bytes32' }
-        ],
-        name: 'Error',
-        type: 'event'
-      },
-      {
-        anonymous: false,
-        inputs: [
-          { indexed: true, name: 'maker', type: 'address' },
-          { indexed: true, name: 'taker', type: 'address' },
-          { indexed: true, name: 'feeRecipient', type: 'address' },
-          { indexed: false, name: 'filledQty', type: 'int256' },
-          { indexed: false, name: 'paidMakerFee', type: 'uint256' },
-          { indexed: false, name: 'paidTakerFee', type: 'uint256' },
-          { indexed: false, name: 'price', type: 'uint256' },
-          { indexed: false, name: 'orderHash', type: 'bytes32' }
-        ],
-        name: 'OrderFilled',
-        type: 'event'
-      },
-      {
-        anonymous: false,
-        inputs: [
-          { indexed: true, name: 'maker', type: 'address' },
-          { indexed: true, name: 'feeRecipient', type: 'address' },
-          { indexed: false, name: 'cancelledQty', type: 'int256' },
-          { indexed: true, name: 'orderHash', type: 'bytes32' }
-        ],
-        name: 'OrderCancelled',
-        type: 'event'
-      },
-      {
-        anonymous: false,
-        inputs: [
           { indexed: true, name: 'currentCreator', type: 'address' },
           { indexed: true, name: 'newCreator', type: 'address' }
         ],
         name: 'CreatorTransferred',
         type: 'event'
-      },
-      {
-        constant: false,
-        inputs: [
-          { name: 'orderAddresses', type: 'address[3]' },
-          { name: 'unsignedOrderValues', type: 'uint256[5]' },
-          { name: 'orderQty', type: 'int256' },
-          { name: 'qtyToFill', type: 'int256' },
-          { name: 'v', type: 'uint8' },
-          { name: 'r', type: 'bytes32' },
-          { name: 's', type: 'bytes32' }
-        ],
-        name: 'tradeOrder',
-        outputs: [{ name: 'filledQty', type: 'int256' }],
-        payable: false,
-        stateMutability: 'nonpayable',
-        type: 'function'
-      },
-      {
-        constant: false,
-        inputs: [
-          { name: 'orderAddresses', type: 'address[3]' },
-          { name: 'unsignedOrderValues', type: 'uint256[5]' },
-          { name: 'orderQty', type: 'int256' },
-          { name: 'qtyToCancel', type: 'int256' }
-        ],
-        name: 'cancelOrder',
-        outputs: [{ name: 'qtyCancelled', type: 'int256' }],
-        payable: false,
-        stateMutability: 'nonpayable',
-        type: 'function'
-      },
-      {
-        constant: false,
-        inputs: [{ name: 'poolAddress', type: 'address' }],
-        name: 'setCollateralPoolContractAddress',
-        outputs: [],
-        payable: false,
-        stateMutability: 'nonpayable',
-        type: 'function'
-      },
-      {
-        constant: false,
-        inputs: [],
-        name: 'requestEarlySettlement',
-        outputs: [],
-        payable: true,
-        stateMutability: 'payable',
-        type: 'function'
-      },
-      {
-        constant: true,
-        inputs: [{ name: 'orderHash', type: 'bytes32' }],
-        name: 'getQtyFilledOrCancelledFromOrder',
-        outputs: [{ name: '', type: 'int256' }],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function'
       }
     ];
     super(web3, address, abi);
@@ -333,17 +186,8 @@ export class MarketContract extends TypeChainContract {
   public get isSettled(): Promise<boolean> {
     return promisify(this.rawWeb3Contract.isSettled, []);
   }
-  public get isCollateralPoolContractLinked(): Promise<boolean> {
-    return promisify(this.rawWeb3Contract.isCollateralPoolContractLinked, []);
-  }
   public get CONTRACT_NAME(): Promise<string> {
     return promisify(this.rawWeb3Contract.CONTRACT_NAME, []);
-  }
-  public get MKT_TOKEN_ADDRESS(): Promise<string> {
-    return promisify(this.rawWeb3Contract.MKT_TOKEN_ADDRESS, []);
-  }
-  public get MARKET_COLLATERAL_POOL_ADDRESS(): Promise<string> {
-    return promisify(this.rawWeb3Contract.MARKET_COLLATERAL_POOL_ADDRESS, []);
   }
   public get PRICE_CAP(): Promise<BigNumber> {
     return promisify(this.rawWeb3Contract.PRICE_CAP, []);
@@ -357,14 +201,8 @@ export class MarketContract extends TypeChainContract {
   public get QTY_MULTIPLIER(): Promise<BigNumber> {
     return promisify(this.rawWeb3Contract.QTY_MULTIPLIER, []);
   }
-  public get COLLATERAL_POOL_FACTORY_ADDRESS(): Promise<string> {
-    return promisify(this.rawWeb3Contract.COLLATERAL_POOL_FACTORY_ADDRESS, []);
-  }
   public get settlementPrice(): Promise<BigNumber> {
     return promisify(this.rawWeb3Contract.settlementPrice, []);
-  }
-  public getQtyFilledOrCancelledFromOrder(orderHash: string): Promise<BigNumber> {
-    return promisify(this.rawWeb3Contract.getQtyFilledOrCancelledFromOrder, [orderHash.toString()]);
   }
 
   public transferCreatorTx(newCreator: BigNumber | string): DeferredTransactionWrapper<ITxParams> {
@@ -372,51 +210,16 @@ export class MarketContract extends TypeChainContract {
       newCreator.toString()
     ]);
   }
-  public tradeOrderTx(
-    orderAddresses: string[],
-    unsignedOrderValues: BigNumber[],
-    orderQty: BigNumber | number,
-    qtyToFill: BigNumber | number,
-    v: BigNumber | number,
-    r: string,
-    s: string
-  ): DeferredTransactionWrapper<ITxParams> {
-    return new DeferredTransactionWrapper<ITxParams>(this, 'tradeOrder', [
-      orderAddresses.map(val => val.toString()),
-      unsignedOrderValues.map(val => val.toString()),
-      orderQty.toString(),
-      qtyToFill.toString(),
-      v.toString(),
-      r.toString(),
-      s.toString()
-    ]);
-  }
-  public cancelOrderTx(
-    orderAddresses: string[],
-    unsignedOrderValues: BigNumber[],
-    orderQty: BigNumber | number,
-    qtyToCancel: BigNumber | number
-  ): DeferredTransactionWrapper<ITxParams> {
-    return new DeferredTransactionWrapper<ITxParams>(this, 'cancelOrder', [
-      orderAddresses.map(val => val.toString()),
-      unsignedOrderValues.map(val => val.toString()),
-      orderQty.toString(),
-      qtyToCancel.toString()
-    ]);
-  }
-  public setCollateralPoolContractAddressTx(
-    poolAddress: BigNumber | string
-  ): DeferredTransactionWrapper<ITxParams> {
-    return new DeferredTransactionWrapper<ITxParams>(this, 'setCollateralPoolContractAddress', [
-      poolAddress.toString()
-    ]);
-  }
-  public requestEarlySettlementTx(): DeferredTransactionWrapper<IPayableTxParams> {
-    return new DeferredTransactionWrapper<IPayableTxParams>(this, 'requestEarlySettlement', []);
-  }
 
-  public UpdatedLastPriceEvent(eventFilter: {}): DeferredEventWrapper<{ price: string }, {}> {
-    return new DeferredEventWrapper<{ price: string }, {}>(this, 'UpdatedLastPrice', eventFilter);
+  public UpdatedLastPriceEvent(eventFilter: {}): DeferredEventWrapper<
+    { price: BigNumber | number },
+    {}
+  > {
+    return new DeferredEventWrapper<{ price: BigNumber | number }, {}>(
+      this,
+      'UpdatedLastPrice',
+      eventFilter
+    );
   }
   public ContractSettledEvent(eventFilter: {}): DeferredEventWrapper<
     { settlePrice: BigNumber | number },
@@ -427,115 +230,6 @@ export class MarketContract extends TypeChainContract {
       'ContractSettled',
       eventFilter
     );
-  }
-  public UpdatedUserBalanceEvent(eventFilter: {
-    user?: BigNumber | string | Array<BigNumber | string>;
-  }): DeferredEventWrapper<
-    { user: BigNumber | string; balance: BigNumber | number },
-    { user?: BigNumber | string | Array<BigNumber | string> }
-  > {
-    return new DeferredEventWrapper<
-      { user: BigNumber | string; balance: BigNumber | number },
-      { user?: BigNumber | string | Array<BigNumber | string> }
-    >(this, 'UpdatedUserBalance', eventFilter);
-  }
-  public UpdatedPoolBalanceEvent(eventFilter: {}): DeferredEventWrapper<
-    { balance: BigNumber | number },
-    {}
-  > {
-    return new DeferredEventWrapper<{ balance: BigNumber | number }, {}>(
-      this,
-      'UpdatedPoolBalance',
-      eventFilter
-    );
-  }
-  public ErrorEvent(eventFilter: {
-    errorCode?: BigNumber | number | Array<BigNumber | number>;
-    orderHash?: string | Array<string>;
-  }): DeferredEventWrapper<
-    { errorCode: BigNumber | number; orderHash: string },
-    {
-      errorCode?: BigNumber | number | Array<BigNumber | number>;
-      orderHash?: string | Array<string>;
-    }
-  > {
-    return new DeferredEventWrapper<
-      { errorCode: BigNumber | number; orderHash: string },
-      {
-        errorCode?: BigNumber | number | Array<BigNumber | number>;
-        orderHash?: string | Array<string>;
-      }
-    >(this, 'Error', eventFilter);
-  }
-  public OrderFilledEvent(eventFilter: {
-    maker?: BigNumber | string | Array<BigNumber | string>;
-    taker?: BigNumber | string | Array<BigNumber | string>;
-    feeRecipient?: BigNumber | string | Array<BigNumber | string>;
-  }): DeferredEventWrapper<
-    {
-      maker: BigNumber | string;
-      taker: BigNumber | string;
-      feeRecipient: BigNumber | string;
-      filledQty: BigNumber | number;
-      paidMakerFee: BigNumber | number;
-      paidTakerFee: BigNumber | number;
-      price: BigNumber | number;
-      orderHash: string;
-    },
-    {
-      maker?: BigNumber | string | Array<BigNumber | string>;
-      taker?: BigNumber | string | Array<BigNumber | string>;
-      feeRecipient?: BigNumber | string | Array<BigNumber | string>;
-    }
-  > {
-    return new DeferredEventWrapper<
-      {
-        maker: BigNumber | string;
-        taker: BigNumber | string;
-        feeRecipient: BigNumber | string;
-        filledQty: BigNumber | number;
-        paidMakerFee: BigNumber | number;
-        paidTakerFee: BigNumber | number;
-        price: BigNumber | number;
-        orderHash: string;
-      },
-      {
-        maker?: BigNumber | string | Array<BigNumber | string>;
-        taker?: BigNumber | string | Array<BigNumber | string>;
-        feeRecipient?: BigNumber | string | Array<BigNumber | string>;
-      }
-    >(this, 'OrderFilled', eventFilter);
-  }
-  public OrderCancelledEvent(eventFilter: {
-    maker?: BigNumber | string | Array<BigNumber | string>;
-    feeRecipient?: BigNumber | string | Array<BigNumber | string>;
-    orderHash?: string | Array<string>;
-  }): DeferredEventWrapper<
-    {
-      maker: BigNumber | string;
-      feeRecipient: BigNumber | string;
-      cancelledQty: BigNumber | number;
-      orderHash: string;
-    },
-    {
-      maker?: BigNumber | string | Array<BigNumber | string>;
-      feeRecipient?: BigNumber | string | Array<BigNumber | string>;
-      orderHash?: string | Array<string>;
-    }
-  > {
-    return new DeferredEventWrapper<
-      {
-        maker: BigNumber | string;
-        feeRecipient: BigNumber | string;
-        cancelledQty: BigNumber | number;
-        orderHash: string;
-      },
-      {
-        maker?: BigNumber | string | Array<BigNumber | string>;
-        feeRecipient?: BigNumber | string | Array<BigNumber | string>;
-        orderHash?: string | Array<string>;
-      }
-    >(this, 'OrderCancelled', eventFilter);
   }
   public CreatorTransferredEvent(eventFilter: {
     currentCreator?: BigNumber | string | Array<BigNumber | string>;
