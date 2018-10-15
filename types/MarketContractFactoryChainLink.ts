@@ -11,7 +11,7 @@ import {
   DeferredEventWrapper
 } from './typechain-runtime';
 
-export class MarketCollateralPoolFactory extends TypeChainContract {
+export class MarketContractFactoryChainLink extends TypeChainContract {
   public readonly rawWeb3Contract: any;
 
   public constructor(web3: any, address: string | BigNumber) {
@@ -19,7 +19,25 @@ export class MarketCollateralPoolFactory extends TypeChainContract {
       {
         constant: true,
         inputs: [],
+        name: 'MKT_TOKEN_ADDRESS',
+        outputs: [{ name: '', type: 'address' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+      },
+      {
+        constant: true,
+        inputs: [],
         name: 'owner',
+        outputs: [{ name: '', type: 'address' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+      },
+      {
+        constant: true,
+        inputs: [],
+        name: 'oracleHubAddress',
         outputs: [{ name: '', type: 'address' }],
         payable: false,
         stateMutability: 'view',
@@ -35,6 +53,15 @@ export class MarketCollateralPoolFactory extends TypeChainContract {
         type: 'function'
       },
       {
+        constant: true,
+        inputs: [],
+        name: 'MKT_TOKEN',
+        outputs: [{ name: '', type: 'address' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+      },
+      {
         constant: false,
         inputs: [{ name: 'newOwner', type: 'address' }],
         name: 'transferOwnership',
@@ -44,10 +71,22 @@ export class MarketCollateralPoolFactory extends TypeChainContract {
         type: 'function'
       },
       {
-        inputs: [{ name: 'registryAddress', type: 'address' }],
+        inputs: [
+          { name: 'registryAddress', type: 'address' },
+          { name: 'mktTokenAddress', type: 'address' }
+        ],
         payable: false,
         stateMutability: 'nonpayable',
         type: 'constructor'
+      },
+      {
+        anonymous: false,
+        inputs: [
+          { indexed: true, name: 'creator', type: 'address' },
+          { indexed: true, name: 'contractAddress', type: 'address' }
+        ],
+        name: 'MarketContractCreated',
+        type: 'event'
       },
       {
         anonymous: false,
@@ -60,8 +99,16 @@ export class MarketCollateralPoolFactory extends TypeChainContract {
       },
       {
         constant: false,
-        inputs: [{ name: 'marketContractAddress', type: 'address' }],
-        name: 'deployMarketCollateralPool',
+        inputs: [
+          { name: 'contractName', type: 'string' },
+          { name: 'collateralTokenAddress', type: 'address' },
+          { name: 'contractSpecs', type: 'uint256[5]' },
+          { name: 'oracleQueryURL', type: 'string' },
+          { name: 'oracleQueryPath', type: 'string' },
+          { name: 'sleepJobId', type: 'bytes32' },
+          { name: 'onDemandJobId', type: 'bytes32' }
+        ],
+        name: 'deployMarketContractChainLink',
         outputs: [],
         payable: false,
         stateMutability: 'nonpayable',
@@ -75,6 +122,15 @@ export class MarketCollateralPoolFactory extends TypeChainContract {
         payable: false,
         stateMutability: 'nonpayable',
         type: 'function'
+      },
+      {
+        constant: false,
+        inputs: [{ name: 'hubAddress', type: 'address' }],
+        name: 'setOracleHubAddress',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
       }
     ];
     super(web3, address, abi);
@@ -83,8 +139,8 @@ export class MarketCollateralPoolFactory extends TypeChainContract {
   static async createAndValidate(
     web3: any,
     address: string | BigNumber
-  ): Promise<MarketCollateralPoolFactory> {
-    const contract = new MarketCollateralPoolFactory(web3, address);
+  ): Promise<MarketContractFactoryChainLink> {
+    const contract = new MarketContractFactoryChainLink(web3, address);
     const code = await promisify(web3.eth.getCode, [address]);
 
     // in case of missing smartcontract, code can be equal to "0x0" or "0x" depending on exact web3 implementation
@@ -95,11 +151,20 @@ export class MarketCollateralPoolFactory extends TypeChainContract {
     return contract;
   }
 
+  public get MKT_TOKEN_ADDRESS(): Promise<string> {
+    return promisify(this.rawWeb3Contract.MKT_TOKEN_ADDRESS, []);
+  }
   public get owner(): Promise<string> {
     return promisify(this.rawWeb3Contract.owner, []);
   }
+  public get oracleHubAddress(): Promise<string> {
+    return promisify(this.rawWeb3Contract.oracleHubAddress, []);
+  }
   public get marketContractRegistry(): Promise<string> {
     return promisify(this.rawWeb3Contract.marketContractRegistry, []);
+  }
+  public get MKT_TOKEN(): Promise<string> {
+    return promisify(this.rawWeb3Contract.MKT_TOKEN, []);
   }
 
   public transferOwnershipTx(newOwner: BigNumber | string): DeferredTransactionWrapper<ITxParams> {
@@ -107,11 +172,23 @@ export class MarketCollateralPoolFactory extends TypeChainContract {
       newOwner.toString()
     ]);
   }
-  public deployMarketCollateralPoolTx(
-    marketContractAddress: BigNumber | string
+  public deployMarketContractChainLinkTx(
+    contractName: string,
+    collateralTokenAddress: BigNumber | string,
+    contractSpecs: BigNumber[],
+    oracleQueryURL: string,
+    oracleQueryPath: string,
+    sleepJobId: string,
+    onDemandJobId: string
   ): DeferredTransactionWrapper<ITxParams> {
-    return new DeferredTransactionWrapper<ITxParams>(this, 'deployMarketCollateralPool', [
-      marketContractAddress.toString()
+    return new DeferredTransactionWrapper<ITxParams>(this, 'deployMarketContractChainLink', [
+      contractName.toString(),
+      collateralTokenAddress.toString(),
+      contractSpecs.map(val => val.toString()),
+      oracleQueryURL.toString(),
+      oracleQueryPath.toString(),
+      sleepJobId.toString(),
+      onDemandJobId.toString()
     ]);
   }
   public setRegistryAddressTx(
@@ -121,7 +198,32 @@ export class MarketCollateralPoolFactory extends TypeChainContract {
       registryAddress.toString()
     ]);
   }
+  public setOracleHubAddressTx(
+    hubAddress: BigNumber | string
+  ): DeferredTransactionWrapper<ITxParams> {
+    return new DeferredTransactionWrapper<ITxParams>(this, 'setOracleHubAddress', [
+      hubAddress.toString()
+    ]);
+  }
 
+  public MarketContractCreatedEvent(eventFilter: {
+    creator?: BigNumber | string | Array<BigNumber | string>;
+    contractAddress?: BigNumber | string | Array<BigNumber | string>;
+  }): DeferredEventWrapper<
+    { creator: BigNumber | string; contractAddress: BigNumber | string },
+    {
+      creator?: BigNumber | string | Array<BigNumber | string>;
+      contractAddress?: BigNumber | string | Array<BigNumber | string>;
+    }
+  > {
+    return new DeferredEventWrapper<
+      { creator: BigNumber | string; contractAddress: BigNumber | string },
+      {
+        creator?: BigNumber | string | Array<BigNumber | string>;
+        contractAddress?: BigNumber | string | Array<BigNumber | string>;
+      }
+    >(this, 'MarketContractCreated', eventFilter);
+  }
   public OwnershipTransferredEvent(eventFilter: {
     previousOwner?: BigNumber | string | Array<BigNumber | string>;
     newOwner?: BigNumber | string | Array<BigNumber | string>;

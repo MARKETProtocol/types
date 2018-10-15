@@ -33,12 +33,12 @@ describe('MarketContractFactoryOraclize', () => {
   });
 
   describe('variables', () => {
-    it('has collateralPoolFactoryAddress', async () => {
-      const expected = '0x11f68c2a0df5b85781bb0f617d502c3a7d354d31';
-
-      contractTester.setupGetterSpy('collateralPoolFactoryAddress', expected);
-      await contractTester.assertMethod(contract.collateralPoolFactoryAddress, expected);
-    });
+    // it('has collateralPoolFactoryAddress', async () => {
+    //   const expected = '0x11f68c2a0df5b85781bb0f617d502c3a7d354d31';
+    //
+    //   contractTester.setupGetterSpy('collateralPoolFactoryAddress', expected);
+    //   await contractTester.assertMethod(contract.collateralPoolFactoryAddress, expected);
+    // });
 
     it('has MKT_TOKEN_ADDRESS', async () => {
       const expected = '0x11f68c2a0df5b81241bb0f617d502c3a7d354d31';

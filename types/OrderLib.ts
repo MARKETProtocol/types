@@ -19,8 +19,7 @@ export class OrderLib extends TypeChainContract {
       {
         constant: true,
         inputs: [
-          { name: 'contractAddress', type: 'address' },
-          { name: 'orderAddresses', type: 'address[3]' },
+          { name: 'orderAddresses', type: 'address[4]' },
           { name: 'unsignedOrderValues', type: 'uint256[5]' },
           { name: 'orderQty', type: 'int256' }
         ],
@@ -62,13 +61,11 @@ export class OrderLib extends TypeChainContract {
   }
 
   public createOrderHash(
-    contractAddress: BigNumber | string,
     orderAddresses: string[],
     unsignedOrderValues: BigNumber[],
     orderQty: BigNumber | number
   ): Promise<string> {
     return promisify(this.rawWeb3Contract.createOrderHash, [
-      contractAddress.toString(),
       orderAddresses.map(val => val.toString()),
       unsignedOrderValues.map(val => val.toString()),
       orderQty.toString()
