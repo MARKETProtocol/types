@@ -1,1 +1,1 @@
-{"version":3,"file":"MathLib.js","sourceRoot":"","sources":["../../types/MathLib.ts"],"names":[],"mappings":"AAAA,0CAA0C;AAC1C,oBAAoB;AAQpB;IAAA;IAqCA,CAAC;IAAD,cAAC;AAAD,CAAC,AArCD,IAqCC"}
+{"version":3,"file":"MathLib.js","sourceRoot":"","sources":["../../types/MathLib.ts"],"names":[],"mappings":";AAAA,0CAA0C;AAC1C,oBAAoB;;AAQpB;IAAA;IAqCA,CAAC;IAAD,cAAC;AAAD,CAAC,AArCD,IAqCC;AArCY,0BAAO"}

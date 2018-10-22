@@ -1,1 +1,1 @@
-{"version":3,"file":"CollateralToken.js","sourceRoot":"","sources":["../../types/CollateralToken.ts"],"names":[],"mappings":"AAAA,0CAA0C;AAC1C,oBAAoB;AAQpB;IAAA;IAgFA,CAAC;IAAD,sBAAC;AAAD,CAAC,AAhFD,IAgFC"}
+{"version":3,"file":"CollateralToken.js","sourceRoot":"","sources":["../../types/CollateralToken.ts"],"names":[],"mappings":";AAAA,0CAA0C;AAC1C,oBAAoB;;AAQpB;IAAA;IAgFA,CAAC;IAAD,sBAAC;AAAD,CAAC,AAhFD,IAgFC;AAhFY,0CAAe"}

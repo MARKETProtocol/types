@@ -1,1 +1,1 @@
-{"version":3,"file":"ERC20.js","sourceRoot":"","sources":["../../types/ERC20.ts"],"names":[],"mappings":"AAAA,0CAA0C;AAC1C,oBAAoB;AAQpB;IAAA;IAkEA,CAAC;IAAD,YAAC;AAAD,CAAC,AAlED,IAkEC"}
+{"version":3,"file":"ERC20.js","sourceRoot":"","sources":["../../types/ERC20.ts"],"names":[],"mappings":";AAAA,0CAA0C;AAC1C,oBAAoB;;AAQpB;IAAA;IAkEA,CAAC;IAAD,YAAC;AAAD,CAAC,AAlED,IAkEC;AAlEY,sBAAK"}

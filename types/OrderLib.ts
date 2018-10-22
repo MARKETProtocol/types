@@ -12,7 +12,6 @@ export class OrderLib {
   options: contractOptions;
   methods: {
     createOrderHash(
-      contractAddress: string,
       orderAddresses: (string)[],
       unsignedOrderValues: (number | string)[],
       orderQty: number | string

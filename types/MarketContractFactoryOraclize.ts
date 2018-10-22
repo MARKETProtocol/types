@@ -23,10 +23,10 @@ export class MarketContractFactoryOraclize {
 
     setRegistryAddress(registryAddress: string): TransactionObject<void>;
 
-    collateralPoolFactoryAddress(): TransactionObject<string>;
     MKT_TOKEN_ADDRESS(): TransactionObject<string>;
     owner(): TransactionObject<string>;
     marketContractRegistry(): TransactionObject<string>;
+    MKT_TOKEN(): TransactionObject<string>;
   };
   deploy(options: {
     data: string;

@@ -8,7 +8,7 @@ export declare class OrderLib {
     constructor(jsonInterface: any[], address?: string, options?: CustomOptions);
     options: contractOptions;
     methods: {
-        createOrderHash(contractAddress: string, orderAddresses: (string)[], unsignedOrderValues: (number | string)[], orderQty: number | string): TransactionObject<string>;
+        createOrderHash(orderAddresses: (string)[], unsignedOrderValues: (number | string)[], orderQty: number | string): TransactionObject<string>;
         isValidSignature(signerAddress: string, hash: string | number[], v: number | string, r: string | number[], s: string | number[]): TransactionObject<boolean>;
     };
     deploy(options: {

@@ -8,21 +8,24 @@ export declare class MarketCollateralPool {
     constructor(jsonInterface: any[], address?: string, options?: CustomOptions);
     options: contractOptions;
     methods: {
-        userAddressToAccountBalance(arg0: string): TransactionObject<string>;
-        getUserNetPosition(userAddress: string): TransactionObject<string>;
-        getUserPositionCount(userAddress: string): TransactionObject<string>;
-        getUserPosition(userAddress: string, index: number | string): TransactionObject<{
+        tokenAddressToAccountBalance(arg0: string, arg1: string): TransactionObject<string>;
+        tokenAddressToBalanceLockTime(arg0: string, arg1: string): TransactionObject<string>;
+        contractAddressToCollateralPoolBalance(arg0: string): TransactionObject<string>;
+        getUserNetPosition(marketContractAddress: string, userAddress: string): TransactionObject<string>;
+        getUserPositionCount(marketContractAddress: string, userAddress: string): TransactionObject<string>;
+        getUserPosition(marketContractAddress: string, userAddress: string, index: number | string): TransactionObject<{
             0: string;
             1: string;
         }>;
-        getUserAccountBalance(userAddress: string): TransactionObject<string>;
-        depositTokensForTrading(depositAmount: number | string): TransactionObject<void>;
-        settleAndClose(): TransactionObject<void>;
-        updatePositions(maker: string, taker: string, qty: number | string, price: number | string): TransactionObject<void>;
-        withdrawTokens(withdrawAmount: number | string): TransactionObject<void>;
-        MKT_TOKEN_ADDRESS(): TransactionObject<string>;
-        linkedAddress(): TransactionObject<string>;
-        collateralPoolBalance(): TransactionObject<string>;
+        getUserUnallocatedBalance(collateralTokenAddress: string, userAddress: string): TransactionObject<string>;
+        transferOwnership(newOwner: string): TransactionObject<void>;
+        depositTokensForTrading(collateralTokenAddress: string, depositAmount: number | string): TransactionObject<void>;
+        settleAndClose(marketContractAddress: string): TransactionObject<void>;
+        updatePositions(marketContractAddress: string, maker: string, taker: string, qty: number | string, price: number | string): TransactionObject<void>;
+        setMarketTradingHubAddress(marketTradingHubAddress: string): TransactionObject<void>;
+        withdrawTokens(collateralTokenAddress: string, withdrawAmount: number | string): TransactionObject<void>;
+        marketTradingHub(): TransactionObject<string>;
+        owner(): TransactionObject<string>;
     };
     deploy(options: {
         data: string;
@@ -34,7 +37,7 @@ export declare class MarketCollateralPool {
             fromBlock?: BlockType;
             topics?: string[];
         }, cb?: Callback<EventLog>): EventEmitter;
-        UpdatedPoolBalance(options?: {
+        OwnershipTransferred(options?: {
             filter?: object;
             fromBlock?: BlockType;
             topics?: string[];

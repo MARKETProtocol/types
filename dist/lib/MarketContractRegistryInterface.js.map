@@ -1,1 +1,1 @@
-{"version":3,"file":"MarketContractRegistryInterface.js","sourceRoot":"","sources":["../../types/MarketContractRegistryInterface.ts"],"names":[],"mappings":"AAAA,0CAA0C;AAC1C,oBAAoB;AAQpB;IAAA;IAiCA,CAAC;IAAD,sCAAC;AAAD,CAAC,AAjCD,IAiCC"}
+{"version":3,"file":"MarketContractRegistryInterface.js","sourceRoot":"","sources":["../../types/MarketContractRegistryInterface.ts"],"names":[],"mappings":";AAAA,0CAA0C;AAC1C,oBAAoB;;AAQpB;IAAA;IAiCA,CAAC;IAAD,sCAAC;AAAD,CAAC,AAjCD,IAiCC;AAjCY,0EAA+B"}

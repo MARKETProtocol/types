@@ -11,6 +11,12 @@ export class MarketContractRegistry {
   constructor(jsonInterface: any[], address?: string, options?: CustomOptions);
   options: contractOptions;
   methods: {
+    addressWhiteList(arg0: number | string): TransactionObject<string>;
+
+    factoryAddressWhiteList(arg0: string): TransactionObject<boolean>;
+
+    isWhiteListed(arg0: string): TransactionObject<boolean>;
+
     isAddressWhiteListed(contractAddress: string): TransactionObject<boolean>;
 
     transferOwnership(newOwner: string): TransactionObject<void>;
