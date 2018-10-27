@@ -39,11 +39,7 @@
     "lint:fix": "tslint --fix -t codeFrame 'types/**/*.ts' 'test/**/*.ts'",
     "prebuild": "rimraf dist",
     "build": "tsc --module commonjs",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:prod": "npm run lint && npm run build && npm run coverage",
-    "coverage": "npm run test -- --coverage --no-cache --verbose",
-    "report-coverage": "cat ./coverage/lcov.info | coveralls",
+    "test:prod": "npm run lint && npm run build",
     "commit": "git-cz",
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
@@ -69,48 +65,20 @@
       "include": "Market*|CollateralToken|OraclizeQueryTest|ERC20|OrderLib|MathLib"
     }
   },
-  "jest": {
-    "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 60,
-        "functions": 60,
-        "lines": 60,
-        "statements": 60
-      }
-    },
-    "collectCoverage": true
-  },
   "dependencies": {
     "bignumber.js": "^7.2.1",
     "web3": "^1.0.0-beta.36"
   },
   "devDependencies": {
     "@marketprotocol/marketprotocol": "^1.4.0",
-    "@types/jest": "^23.3.2",
     "@types/node": "^10.10.1",
     "@types/web3": "^1.0.5",
     "commitizen": "^2.10.1",
-    "coveralls": "^3.0.2",
     "cz-conventional-changelog": "^2.1.0",
     "husky": "^0.14.3",
-    "jest": "^23.6.0",
     "lint-staged": "^7.2.2",
     "market-solidity": "^1.1.0",
     "prettier": "^1.14.2",
-    "ts-jest": "^23.1.4",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "tslint-config-standard": "^8.0.1",
