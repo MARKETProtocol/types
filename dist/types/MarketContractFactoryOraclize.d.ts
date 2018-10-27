@@ -6,6 +6,7 @@ import { EventEmitter } from "events";
 import { Provider } from "web3/providers";
 export declare class MarketContractFactoryOraclize {
     constructor(jsonInterface: any[], address?: string, options?: CustomOptions);
+    _address: string;
     options: contractOptions;
     methods: {
         transferOwnership(newOwner: string): TransactionObject<void>;

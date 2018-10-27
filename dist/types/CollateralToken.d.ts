@@ -6,6 +6,7 @@ import { EventEmitter } from "events";
 import { Provider } from "web3/providers";
 export declare class CollateralToken {
     constructor(jsonInterface: any[], address?: string, options?: CustomOptions);
+    _address: string;
     options: contractOptions;
     methods: {
         balanceOf(_owner: string): TransactionObject<string>;

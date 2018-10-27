@@ -6,6 +6,7 @@ import { EventEmitter } from "events";
 import { Provider } from "web3/providers";
 export declare class MarketTradingHub {
     constructor(jsonInterface: any[], address?: string, options?: CustomOptions);
+    _address: string;
     options: contractOptions;
     methods: {
         getQtyFilledOrCancelledFromOrder(orderHash: string | number[]): TransactionObject<string>;

@@ -6,6 +6,7 @@ import { EventEmitter } from "events";
 import { Provider } from "web3/providers";
 export declare class MarketContractChainLink {
     constructor(jsonInterface: any[], address?: string, options?: CustomOptions);
+    _address: string;
     options: contractOptions;
     methods: {
         transferCreator(newCreator: string): TransactionObject<void>;

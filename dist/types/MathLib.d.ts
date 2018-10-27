@@ -6,6 +6,7 @@ import { EventEmitter } from "events";
 import { Provider } from "web3/providers";
 export declare class MathLib {
     constructor(jsonInterface: any[], address?: string, options?: CustomOptions);
+    _address: string;
     options: contractOptions;
     methods: {
         calculateNeededCollateral(priceFloor: number | string, priceCap: number | string, qtyMultiplier: number | string, qty: number | string, price: number | string): TransactionObject<string>;
