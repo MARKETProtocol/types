@@ -1,6 +1,6 @@
 export interface Artifact {
   contractName: string;
-  abi: object;
+  abi: any[];
   networks: {
     [networkId: number]: {
       address: string;
