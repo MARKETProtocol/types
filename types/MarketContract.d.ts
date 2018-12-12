@@ -14,16 +14,35 @@ export class MarketContract {
   methods: {
     transferCreator(newCreator: string): TransactionObject<void>;
 
+    mintPositionTokens(
+      qtyToMint: number | string,
+      minter: string
+    ): TransactionObject<void>;
+
+    redeemLongToken(
+      qtyToRedeem: number | string,
+      redeemer: string
+    ): TransactionObject<void>;
+
+    redeemShortToken(
+      qtyToRedeem: number | string,
+      redeemer: string
+    ): TransactionObject<void>;
+
     creator(): TransactionObject<string>;
     lastPrice(): TransactionObject<string>;
+    LONG_POSITION_TOKEN(): TransactionObject<string>;
     PRICE_DECIMAL_PLACES(): TransactionObject<string>;
     COLLATERAL_TOKEN_ADDRESS(): TransactionObject<string>;
     isSettled(): TransactionObject<boolean>;
+    SHORT_POSITION_TOKEN(): TransactionObject<string>;
     CONTRACT_NAME(): TransactionObject<string>;
     PRICE_CAP(): TransactionObject<string>;
     EXPIRATION(): TransactionObject<string>;
     PRICE_FLOOR(): TransactionObject<string>;
     QTY_MULTIPLIER(): TransactionObject<string>;
+    COLLATERAL_PER_UNIT(): TransactionObject<string>;
+    COLLATERAL_POOL_ADDRESS(): TransactionObject<string>;
     settlementPrice(): TransactionObject<string>;
   };
   deploy(options: {

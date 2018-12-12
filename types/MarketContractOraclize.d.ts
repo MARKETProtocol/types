@@ -12,29 +12,42 @@ export class MarketContractOraclize {
   _address: string;
   options: contractOptions;
   methods: {
+    redeemShortToken(
+      qtyToRedeem: number | string,
+      redeemer: string
+    ): TransactionObject<void>;
+
+    redeemLongToken(
+      qtyToRedeem: number | string,
+      redeemer: string
+    ): TransactionObject<void>;
+
+    mintPositionTokens(
+      qtyToMint: number | string,
+      minter: string
+    ): TransactionObject<void>;
+
     transferCreator(newCreator: string): TransactionObject<void>;
 
-    requestEarlySettlement(): TransactionObject<void>;
-
-    __callback(
-      myid: string | number[],
-      result: string
-    ): TransactionObject<void>;
+    oracleCallBack(price: number | string): TransactionObject<void>;
 
     creator(): TransactionObject<string>;
     lastPrice(): TransactionObject<string>;
-    lastPriceQueryResult(): TransactionObject<string>;
+    LONG_POSITION_TOKEN(): TransactionObject<string>;
     PRICE_DECIMAL_PLACES(): TransactionObject<string>;
     COLLATERAL_TOKEN_ADDRESS(): TransactionObject<string>;
     isSettled(): TransactionObject<boolean>;
-    QUERY_CALLBACK_GAS(): TransactionObject<string>;
     ORACLE_DATA_SOURCE(): TransactionObject<string>;
+    SHORT_POSITION_TOKEN(): TransactionObject<string>;
     ORACLE_QUERY(): TransactionObject<string>;
     CONTRACT_NAME(): TransactionObject<string>;
+    ORACLE_HUB_ADDRESS(): TransactionObject<string>;
     PRICE_CAP(): TransactionObject<string>;
     EXPIRATION(): TransactionObject<string>;
     PRICE_FLOOR(): TransactionObject<string>;
     QTY_MULTIPLIER(): TransactionObject<string>;
+    COLLATERAL_PER_UNIT(): TransactionObject<string>;
+    COLLATERAL_POOL_ADDRESS(): TransactionObject<string>;
     settlementPrice(): TransactionObject<string>;
   };
   deploy(options: {
