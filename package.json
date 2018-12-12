@@ -59,7 +59,7 @@
       "helpMessage": "Use \"npm run commit\" instead, we use conventional-changelog format :) (https://github.com/commitizen/cz-cli)"
     },
     "typechain": {
-      "include": "Market*|CollateralToken|OraclizeQueryTest|ERC20|OrderLib|MathLib"
+      "include": "Market*|ERC20|MathLib"
     }
   },
   "dependencies": {

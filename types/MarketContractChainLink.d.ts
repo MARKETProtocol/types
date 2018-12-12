@@ -12,23 +12,42 @@ export class MarketContractChainLink {
   _address: string;
   options: contractOptions;
   methods: {
+    redeemShortToken(
+      qtyToRedeem: number | string,
+      redeemer: string
+    ): TransactionObject<void>;
+
+    redeemLongToken(
+      qtyToRedeem: number | string,
+      redeemer: string
+    ): TransactionObject<void>;
+
+    mintPositionTokens(
+      qtyToMint: number | string,
+      minter: string
+    ): TransactionObject<void>;
+
     transferCreator(newCreator: string): TransactionObject<void>;
 
     oracleCallBack(price: number | string): TransactionObject<void>;
 
     creator(): TransactionObject<string>;
     lastPrice(): TransactionObject<string>;
+    LONG_POSITION_TOKEN(): TransactionObject<string>;
     PRICE_DECIMAL_PLACES(): TransactionObject<string>;
     COLLATERAL_TOKEN_ADDRESS(): TransactionObject<string>;
     isSettled(): TransactionObject<boolean>;
     ORACLE_QUERY_URL(): TransactionObject<string>;
+    SHORT_POSITION_TOKEN(): TransactionObject<string>;
     CONTRACT_NAME(): TransactionObject<string>;
     ORACLE_HUB_ADDRESS(): TransactionObject<string>;
     PRICE_CAP(): TransactionObject<string>;
     EXPIRATION(): TransactionObject<string>;
     PRICE_FLOOR(): TransactionObject<string>;
     QTY_MULTIPLIER(): TransactionObject<string>;
+    COLLATERAL_PER_UNIT(): TransactionObject<string>;
     ORACLE_QUERY_PATH(): TransactionObject<string>;
+    COLLATERAL_POOL_ADDRESS(): TransactionObject<string>;
     settlementPrice(): TransactionObject<string>;
   };
   deploy(options: {

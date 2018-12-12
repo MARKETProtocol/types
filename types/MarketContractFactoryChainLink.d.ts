@@ -28,11 +28,10 @@ export class MarketContractFactoryChainLink {
 
     setOracleHubAddress(hubAddress: string): TransactionObject<void>;
 
-    MKT_TOKEN_ADDRESS(): TransactionObject<string>;
     owner(): TransactionObject<string>;
+    MARKET_COLLATERAL_POOL(): TransactionObject<string>;
     oracleHubAddress(): TransactionObject<string>;
     marketContractRegistry(): TransactionObject<string>;
-    MKT_TOKEN(): TransactionObject<string>;
   };
   deploy(options: {
     data: string;
