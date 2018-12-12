@@ -12,71 +12,28 @@ export class MarketCollateralPool {
   _address: string;
   options: contractOptions;
   methods: {
-    tokenAddressToAccountBalance(
-      arg0: string,
-      arg1: string
-    ): TransactionObject<string>;
-
-    tokenAddressToBalanceLockTime(
-      arg0: string,
-      arg1: string
-    ): TransactionObject<string>;
-
     contractAddressToCollateralPoolBalance(
       arg0: string
     ): TransactionObject<string>;
 
-    getUserNetPosition(
-      marketContractAddress: string,
-      userAddress: string
-    ): TransactionObject<string>;
-
-    getUserPositionCount(
-      marketContractAddress: string,
-      userAddress: string
-    ): TransactionObject<string>;
-
-    getUserPosition(
-      marketContractAddress: string,
-      userAddress: string,
-      index: number | string
-    ): TransactionObject<{
-      0: string;
-      1: string;
-    }>;
-
-    getUserUnallocatedBalance(
-      collateralTokenAddress: string,
-      userAddress: string
-    ): TransactionObject<string>;
-
     transferOwnership(newOwner: string): TransactionObject<void>;
 
-    depositTokensForTrading(
-      collateralTokenAddress: string,
-      depositAmount: number | string
-    ): TransactionObject<void>;
-
-    settleAndClose(marketContractAddress: string): TransactionObject<void>;
-
-    updatePositions(
+    mintPositionTokens(
       marketContractAddress: string,
-      maker: string,
-      taker: string,
-      qty: number | string,
-      price: number | string
+      qtyToMint: number | string
     ): TransactionObject<void>;
 
-    setMarketTradingHubAddress(
-      marketTradingHubAddress: string
+    redeemPositionTokens(
+      marketContractAddress: string,
+      qtyToRedeem: number | string
     ): TransactionObject<void>;
 
-    withdrawTokens(
-      collateralTokenAddress: string,
-      withdrawAmount: number | string
+    settleAndClose(
+      marketContractAddress: string,
+      qtyToRedeem: number | string
     ): TransactionObject<void>;
 
-    marketTradingHub(): TransactionObject<string>;
+    MARKET_CONTRACT_REGISTRY(): TransactionObject<string>;
     owner(): TransactionObject<string>;
   };
   deploy(options: {
@@ -84,7 +41,16 @@ export class MarketCollateralPool {
     arguments: any[];
   }): TransactionObject<Contract>;
   events: {
-    UpdatedUserBalance(
+    TokensMinted(
+      options?: {
+        filter?: object;
+        fromBlock?: BlockType;
+        topics?: (null | string)[];
+      },
+      cb?: Callback<EventLog>
+    ): EventEmitter;
+
+    TokensRedeemed(
       options?: {
         filter?: object;
         fromBlock?: BlockType;

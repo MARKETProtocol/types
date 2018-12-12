@@ -19,6 +19,12 @@ export class MathLib {
       qty: number | string,
       price: number | string
     ): TransactionObject<string>;
+
+    calculateTotalCollateral(
+      priceFloor: number | string,
+      priceCap: number | string,
+      qtyMultiplier: number | string
+    ): TransactionObject<string>;
   };
   deploy(options: {
     data: string;

@@ -24,10 +24,12 @@ export class MarketContractFactoryOraclize {
 
     setRegistryAddress(registryAddress: string): TransactionObject<void>;
 
-    MKT_TOKEN_ADDRESS(): TransactionObject<string>;
+    setOracleHubAddress(hubAddress: string): TransactionObject<void>;
+
     owner(): TransactionObject<string>;
+    MARKET_COLLATERAL_POOL(): TransactionObject<string>;
+    oracleHubAddress(): TransactionObject<string>;
     marketContractRegistry(): TransactionObject<string>;
-    MKT_TOKEN(): TransactionObject<string>;
   };
   deploy(options: {
     data: string;
