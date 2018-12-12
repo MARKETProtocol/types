@@ -1,6 +1,6 @@
 {
   "name": "@marketprotocol/types",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Typescript defintions for MARKET Protocol smart contract ABIs",
   "keywords": [
     "MARKET Protocol",
