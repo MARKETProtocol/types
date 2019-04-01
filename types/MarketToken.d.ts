@@ -12,81 +12,52 @@ export class MarketToken {
   _address: string;
   options: contractOptions;
   methods: {
-    balanceOf(_owner: string): TransactionObject<string>;
+    balanceOf(owner: string): TransactionObject<string>;
 
-    allowance(_owner: string, _spender: string): TransactionObject<string>;
-
-    isUserEnabledForContract(
-      marketContractAddress: string,
-      userAddress: string
-    ): TransactionObject<boolean>;
-
-    isBalanceSufficientForContractCreation(
-      userAddress: string
-    ): TransactionObject<boolean>;
-
-    getLockedBalanceForUser(
-      marketContractAddress: string,
-      userAddress: string
-    ): TransactionObject<string>;
+    allowance(owner: string, spender: string): TransactionObject<string>;
 
     approve(
-      _spender: string,
-      _value: number | string
+      spender: string,
+      value: number | string
     ): TransactionObject<boolean>;
 
     transferFrom(
-      _from: string,
-      _to: string,
-      _value: number | string
+      from: string,
+      to: string,
+      value: number | string
     ): TransactionObject<boolean>;
 
-    burn(_value: number | string): TransactionObject<void>;
+    increaseAllowance(
+      spender: string,
+      addedValue: number | string
+    ): TransactionObject<boolean>;
+
+    burn(value: number | string): TransactionObject<void>;
 
     upgrade(value: number | string): TransactionObject<void>;
 
-    decreaseApproval(
-      _spender: string,
-      _subtractedValue: number | string
-    ): TransactionObject<boolean>;
+    renounceOwnership(): TransactionObject<void>;
+
+    burnFrom(from: string, value: number | string): TransactionObject<void>;
 
     setUpgradeableTarget(upgradeAddress: string): TransactionObject<void>;
 
-    transfer(_to: string, _value: number | string): TransactionObject<boolean>;
-
-    increaseApproval(
-      _spender: string,
-      _addedValue: number | string
+    decreaseAllowance(
+      spender: string,
+      subtractedValue: number | string
     ): TransactionObject<boolean>;
 
+    transfer(to: string, value: number | string): TransactionObject<boolean>;
+
     transferOwnership(newOwner: string): TransactionObject<void>;
-
-    lockTokensForTradingMarketContract(
-      marketContractAddress: string,
-      qtyToLock: number | string
-    ): TransactionObject<void>;
-
-    unlockTokens(
-      marketContractAddress: string,
-      qtyToUnlock: number | string
-    ): TransactionObject<void>;
-
-    setLockQtyToAllowTrading(
-      qtyToLock: number | string
-    ): TransactionObject<void>;
-
-    setMinBalanceForContractCreation(
-      minBalance: number | string
-    ): TransactionObject<void>;
 
     name(): TransactionObject<string>;
     totalSupply(): TransactionObject<string>;
     INITIAL_SUPPLY(): TransactionObject<string>;
     decimals(): TransactionObject<string>;
     upgradeableTarget(): TransactionObject<string>;
-    minBalanceToAllowContractCreation(): TransactionObject<string>;
-    lockQtyToAllowTrading(): TransactionObject<string>;
     owner(): TransactionObject<string>;
+    isOwner(): TransactionObject<boolean>;
     symbol(): TransactionObject<string>;
     totalUpgraded(): TransactionObject<string>;
   };
@@ -95,15 +66,6 @@ export class MarketToken {
     arguments: any[];
   }): TransactionObject<Contract>;
   events: {
-    UpdatedUserLockedBalance(
-      options?: {
-        filter?: object;
-        fromBlock?: BlockType;
-        topics?: (null | string)[];
-      },
-      cb?: Callback<EventLog>
-    ): EventEmitter;
-
     Upgraded(
       options?: {
         filter?: object;
@@ -113,7 +75,7 @@ export class MarketToken {
       cb?: Callback<EventLog>
     ): EventEmitter;
 
-    Burn(
+    Transfer(
       options?: {
         filter?: object;
         fromBlock?: BlockType;
@@ -123,15 +85,6 @@ export class MarketToken {
     ): EventEmitter;
 
     Approval(
-      options?: {
-        filter?: object;
-        fromBlock?: BlockType;
-        topics?: (null | string)[];
-      },
-      cb?: Callback<EventLog>
-    ): EventEmitter;
-
-    Transfer(
       options?: {
         filter?: object;
         fromBlock?: BlockType;

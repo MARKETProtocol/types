@@ -7,21 +7,21 @@ import { Callback, EventLog } from "web3/types";
 import { EventEmitter } from "events";
 import { Provider } from "web3/providers";
 
-export class MarketContractFactoryChainLink {
+export class MarketContractFactoryMPX {
   constructor(jsonInterface: any[], address?: string, options?: CustomOptions);
   _address: string;
   options: contractOptions;
   methods: {
+    renounceOwnership(): TransactionObject<void>;
+
     transferOwnership(newOwner: string): TransactionObject<void>;
 
-    deployMarketContractChainLink(
-      contractName: string,
+    deployMarketContractMPX(
+      contractNames: string,
       collateralTokenAddress: string,
       contractSpecs: (number | string)[],
-      oracleQueryURL: string,
-      oracleQueryPath: string,
-      sleepJobId: string | number[],
-      onDemandJobId: string | number[]
+      oracleURL: string,
+      oracleStatistic: string
     ): TransactionObject<void>;
 
     setRegistryAddress(registryAddress: string): TransactionObject<void>;
@@ -29,6 +29,7 @@ export class MarketContractFactoryChainLink {
     setOracleHubAddress(hubAddress: string): TransactionObject<void>;
 
     owner(): TransactionObject<string>;
+    isOwner(): TransactionObject<boolean>;
     MARKET_COLLATERAL_POOL(): TransactionObject<string>;
     oracleHubAddress(): TransactionObject<string>;
     marketContractRegistry(): TransactionObject<string>;

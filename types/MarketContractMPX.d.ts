@@ -7,7 +7,7 @@ import { Callback, EventLog } from "web3/types";
 import { EventEmitter } from "events";
 import { Provider } from "web3/providers";
 
-export class MarketContractOraclize {
+export class MarketContractMPX {
   constructor(jsonInterface: any[], address?: string, options?: CustomOptions);
   _address: string;
   options: contractOptions;
@@ -16,6 +16,8 @@ export class MarketContractOraclize {
       qtyToRedeem: number | string,
       redeemer: string
     ): TransactionObject<void>;
+
+    renounceOwnership(): TransactionObject<void>;
 
     redeemLongToken(
       qtyToRedeem: number | string,
@@ -27,25 +29,35 @@ export class MarketContractOraclize {
       minter: string
     ): TransactionObject<void>;
 
-    transferCreator(newCreator: string): TransactionObject<void>;
+    transferOwnership(newOwner: string): TransactionObject<void>;
 
     oracleCallBack(price: number | string): TransactionObject<void>;
 
-    creator(): TransactionObject<string>;
+    arbitrateSettlement(price: number | string): TransactionObject<void>;
+
+    setOracleHubAddress(oracleHubAddress: string): TransactionObject<void>;
+
     lastPrice(): TransactionObject<string>;
     LONG_POSITION_TOKEN(): TransactionObject<string>;
     PRICE_DECIMAL_PLACES(): TransactionObject<string>;
     COLLATERAL_TOKEN_ADDRESS(): TransactionObject<string>;
     isSettled(): TransactionObject<boolean>;
-    ORACLE_DATA_SOURCE(): TransactionObject<string>;
+    ORACLE_URL(): TransactionObject<string>;
+    ORACLE_STATISTIC(): TransactionObject<string>;
+    SETTLEMENT_DELAY(): TransactionObject<string>;
     SHORT_POSITION_TOKEN(): TransactionObject<string>;
-    ORACLE_QUERY(): TransactionObject<string>;
+    COLLATERAL_TOKEN_FEE_PER_UNIT(): TransactionObject<string>;
     CONTRACT_NAME(): TransactionObject<string>;
+    settlementTimeStamp(): TransactionObject<string>;
+    owner(): TransactionObject<string>;
+    isOwner(): TransactionObject<boolean>;
     ORACLE_HUB_ADDRESS(): TransactionObject<string>;
     PRICE_CAP(): TransactionObject<string>;
     EXPIRATION(): TransactionObject<string>;
+    isPostSettlementDelay(): TransactionObject<boolean>;
     PRICE_FLOOR(): TransactionObject<string>;
     QTY_MULTIPLIER(): TransactionObject<string>;
+    MKT_TOKEN_FEE_PER_UNIT(): TransactionObject<string>;
     COLLATERAL_PER_UNIT(): TransactionObject<string>;
     COLLATERAL_POOL_ADDRESS(): TransactionObject<string>;
     settlementPrice(): TransactionObject<string>;
@@ -73,7 +85,7 @@ export class MarketContractOraclize {
       cb?: Callback<EventLog>
     ): EventEmitter;
 
-    CreatorTransferred(
+    OwnershipTransferred(
       options?: {
         filter?: object;
         fromBlock?: BlockType;

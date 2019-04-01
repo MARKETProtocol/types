@@ -12,15 +12,20 @@ export class MarketCollateralPool {
   _address: string;
   options: contractOptions;
   methods: {
+    feesCollectedByTokenAddress(arg0: string): TransactionObject<string>;
+
     contractAddressToCollateralPoolBalance(
       arg0: string
     ): TransactionObject<string>;
+
+    renounceOwnership(): TransactionObject<void>;
 
     transferOwnership(newOwner: string): TransactionObject<void>;
 
     mintPositionTokens(
       marketContractAddress: string,
-      qtyToMint: number | string
+      qtyToMint: number | string,
+      isAttemptToPayInMKT: boolean
     ): TransactionObject<void>;
 
     redeemPositionTokens(
@@ -33,8 +38,21 @@ export class MarketCollateralPool {
       qtyToRedeem: number | string
     ): TransactionObject<void>;
 
-    MARKET_CONTRACT_REGISTRY(): TransactionObject<string>;
+    withdrawFees(
+      feeTokenAddress: string,
+      feeRecipient: string
+    ): TransactionObject<void>;
+
+    setMKTTokenAddress(mktTokenAddress: string): TransactionObject<void>;
+
+    setMarketContractRegistryAddress(
+      marketContractRegistryAddress: string
+    ): TransactionObject<void>;
+
+    mktToken(): TransactionObject<string>;
     owner(): TransactionObject<string>;
+    isOwner(): TransactionObject<boolean>;
+    marketContractRegistry(): TransactionObject<string>;
   };
   deploy(options: {
     data: string;
