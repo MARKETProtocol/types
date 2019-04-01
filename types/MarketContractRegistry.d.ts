@@ -20,6 +20,8 @@ export class MarketContractRegistry {
 
     isAddressWhiteListed(contractAddress: string): TransactionObject<boolean>;
 
+    renounceOwnership(): TransactionObject<void>;
+
     transferOwnership(newOwner: string): TransactionObject<void>;
 
     removeContractFromWhiteList(
@@ -34,6 +36,7 @@ export class MarketContractRegistry {
     removeFactoryAddress(factoryAddress: string): TransactionObject<void>;
 
     owner(): TransactionObject<string>;
+    isOwner(): TransactionObject<boolean>;
     getAddressWhiteList(): TransactionObject<(string)[]>;
   };
   deploy(options: {

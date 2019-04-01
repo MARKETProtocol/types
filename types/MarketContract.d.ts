@@ -12,7 +12,9 @@ export class MarketContract {
   _address: string;
   options: contractOptions;
   methods: {
-    transferCreator(newCreator: string): TransactionObject<void>;
+    renounceOwnership(): TransactionObject<void>;
+
+    transferOwnership(newOwner: string): TransactionObject<void>;
 
     mintPositionTokens(
       qtyToMint: number | string,
@@ -29,21 +31,27 @@ export class MarketContract {
       redeemer: string
     ): TransactionObject<void>;
 
-    creator(): TransactionObject<string>;
     lastPrice(): TransactionObject<string>;
     LONG_POSITION_TOKEN(): TransactionObject<string>;
     PRICE_DECIMAL_PLACES(): TransactionObject<string>;
     COLLATERAL_TOKEN_ADDRESS(): TransactionObject<string>;
     isSettled(): TransactionObject<boolean>;
+    SETTLEMENT_DELAY(): TransactionObject<string>;
     SHORT_POSITION_TOKEN(): TransactionObject<string>;
+    COLLATERAL_TOKEN_FEE_PER_UNIT(): TransactionObject<string>;
     CONTRACT_NAME(): TransactionObject<string>;
+    settlementTimeStamp(): TransactionObject<string>;
+    owner(): TransactionObject<string>;
+    isOwner(): TransactionObject<boolean>;
     PRICE_CAP(): TransactionObject<string>;
     EXPIRATION(): TransactionObject<string>;
     PRICE_FLOOR(): TransactionObject<string>;
     QTY_MULTIPLIER(): TransactionObject<string>;
+    MKT_TOKEN_FEE_PER_UNIT(): TransactionObject<string>;
     COLLATERAL_PER_UNIT(): TransactionObject<string>;
     COLLATERAL_POOL_ADDRESS(): TransactionObject<string>;
     settlementPrice(): TransactionObject<string>;
+    isPostSettlementDelay(): TransactionObject<boolean>;
   };
   deploy(options: {
     data: string;
@@ -68,7 +76,7 @@ export class MarketContract {
       cb?: Callback<EventLog>
     ): EventEmitter;
 
-    CreatorTransferred(
+    OwnershipTransferred(
       options?: {
         filter?: object;
         fromBlock?: BlockType;

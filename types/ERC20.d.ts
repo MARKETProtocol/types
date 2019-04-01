@@ -12,11 +12,16 @@ export class ERC20 {
   _address: string;
   options: contractOptions;
   methods: {
-    balanceOf(who: string): TransactionObject<string>;
+    balanceOf(owner: string): TransactionObject<string>;
 
     allowance(owner: string, spender: string): TransactionObject<string>;
 
     transfer(to: string, value: number | string): TransactionObject<boolean>;
+
+    approve(
+      spender: string,
+      value: number | string
+    ): TransactionObject<boolean>;
 
     transferFrom(
       from: string,
@@ -24,9 +29,14 @@ export class ERC20 {
       value: number | string
     ): TransactionObject<boolean>;
 
-    approve(
+    increaseAllowance(
       spender: string,
-      value: number | string
+      addedValue: number | string
+    ): TransactionObject<boolean>;
+
+    decreaseAllowance(
+      spender: string,
+      subtractedValue: number | string
     ): TransactionObject<boolean>;
 
     totalSupply(): TransactionObject<string>;
@@ -36,7 +46,7 @@ export class ERC20 {
     arguments: any[];
   }): TransactionObject<Contract>;
   events: {
-    Approval(
+    Transfer(
       options?: {
         filter?: object;
         fromBlock?: BlockType;
@@ -45,7 +55,7 @@ export class ERC20 {
       cb?: Callback<EventLog>
     ): EventEmitter;
 
-    Transfer(
+    Approval(
       options?: {
         filter?: object;
         fromBlock?: BlockType;
