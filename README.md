@@ -1,4 +1,4 @@
-<img src="https://github.com/MARKETProtocol/dApp/blob/master/src/img/MARKETProtocol-Light.png?raw=true" align="middle">
+<img src="https://github.com/MARKETProtocol/MARKETProtocol/blob/develop/assets/MARKETProtocol-Dark.png?raw=true" align="middle">
 
 
 [![Build Status](https://travis-ci.org/MARKETProtocol/types.svg?branch=develop)](https://travis-ci.org/MARKETProtocol/types) [![Coverage Status](https://coveralls.io/repos/github/MARKETProtocol/types/badge.svg?branch=develop&service=github)](https://coveralls.io/github/MARKETProtocol/types?branch=develop) [![npm version](https://badge.fury.io/js/%40marketprotocol%2Ftypes.svg)](https://badge.fury.io/js/%40marketprotocol%2Ftypes)
