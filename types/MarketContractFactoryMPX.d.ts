@@ -26,12 +26,12 @@ export class MarketContractFactoryMPX {
 
     setRegistryAddress(registryAddress: string): TransactionObject<void>;
 
-    setOracleHubAddress(hubAddress: string): TransactionObject<void>;
+    setOracleHubAddress(oracleHubAddress: string): TransactionObject<void>;
 
+    oracleHub(): TransactionObject<string>;
     owner(): TransactionObject<string>;
     isOwner(): TransactionObject<boolean>;
     MARKET_COLLATERAL_POOL(): TransactionObject<string>;
-    oracleHubAddress(): TransactionObject<string>;
     marketContractRegistry(): TransactionObject<string>;
   };
   deploy(options: {
