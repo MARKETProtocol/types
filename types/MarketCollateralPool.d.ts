@@ -35,7 +35,8 @@ export class MarketCollateralPool {
 
     settleAndClose(
       marketContractAddress: string,
-      qtyToRedeem: number | string
+      longQtyToRedeem: number | string,
+      shortQtyToRedeem: number | string
     ): TransactionObject<void>;
 
     withdrawFees(

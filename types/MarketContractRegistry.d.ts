@@ -27,7 +27,7 @@ export class MarketContractRegistry {
     removeContractFromWhiteList(
       contractAddress: string,
       whiteListIndex: number | string
-    ): TransactionObject<boolean>;
+    ): TransactionObject<void>;
 
     addAddressToWhiteList(contractAddress: string): TransactionObject<void>;
 

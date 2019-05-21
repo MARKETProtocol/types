@@ -17,7 +17,7 @@ export class MarketContractFactoryMPX {
     transferOwnership(newOwner: string): TransactionObject<void>;
 
     deployMarketContractMPX(
-      contractNames: string,
+      contractNames: (string | number[])[],
       collateralTokenAddress: string,
       contractSpecs: (number | string)[],
       oracleURL: string,
